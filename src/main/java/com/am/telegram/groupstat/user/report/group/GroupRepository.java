@@ -20,6 +20,9 @@ public class GroupRepository {
                 groupDTO.setInternalName(rs.getString("GROUP_INTERNAL_NAME"));
                 groupDTO.setCity(rs.getString("GROUP_CITY"));
                 groupDTO.setCategory(rs.getString("GROUP_CATEGORY"));
+                groupDTO.setAddedAt(rs.getDate("GROUP_ADDED_AT").toLocalDate());
+                groupDTO.setAddedBy(rs.getString("GROUP_ADDED_BY"));
+                groupDTO.setPaused(rs.getBoolean("IS_GROUP_PAUSED"));
                 groupDTOs.add(groupDTO);
             }
         }

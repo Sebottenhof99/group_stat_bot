@@ -1,11 +1,16 @@
 package com.am.telegram.groupstat.user.report.group;
 
+import java.time.LocalDate;
+
 public class GroupDTO {
     private int id;
     private String internalName;
     private String publicName;
     private String city;
     private String category;
+    private LocalDate addedAt;
+    private String addedBy;
+    private boolean isPaused;
 
     public int getId() {
         return id;
@@ -45,5 +50,29 @@ public class GroupDTO {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public LocalDate getAddedAt() {
+        return addedAt;
+    }
+
+    public void setAddedAt(LocalDate addedAt) {
+        this.addedAt = addedAt;
+    }
+
+    public String getAddedBy() {
+        return addedBy;
+    }
+
+    public void setAddedBy(String addedBy) {
+        this.addedBy = addedBy;
+    }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public void setPaused(boolean paused) {
+        isPaused = paused;
     }
 }

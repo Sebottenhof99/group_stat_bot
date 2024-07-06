@@ -2,7 +2,10 @@ CREATE TABLE GROUPS(
     GROUP_ID  integer PRIMARY KEY auto_increment,
     GROUP_INTERNAL_NAME varchar not null ,
     GROUP_CITY varchar not null,
-    GROUP_CATEGORY varchar not null
+    GROUP_CATEGORY  varchar not null,
+    GROUP_ADDED_AT  DATE    not null,
+    GROUP_ADDED_BY  varchar not null,
+    IS_GROUP_PAUSED boolean default false
 );
 
 
