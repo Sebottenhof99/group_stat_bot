@@ -4,13 +4,13 @@ import com.am.telegram.groupstat.user.report.group.GroupDTO;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.request.GetChatMemberCount;
 import com.pengrad.telegrambot.response.GetChatMemberCountResponse;
-import jakarta.annotation.PostConstruct;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class StatisticRepository {
     }
 
 
-    public Map<String, GroupMonthStatisticDTO> getPreviousMonthStatistics(List<GroupDTO> groupDTOs, Connection connection) throws SQLException {
+    public Map<String, GroupMonthStatisticDTO> getPreviousMonthStatistics(Connection connection) throws SQLException {
         String sql = """
                 SELECT GROUP_INTERNAL_NAME, STATISTIC_ID, STATISTIC_MEASURED_AT, STATISTIC_MEMBER_COUNT 
                 FROM GROUP_MONTH_STATISTIC JOIN GROUPS on GROUP_MONTH_STATISTIC.STATISTIC_GROUP_ID = GROUPS.GROUP_ID
@@ -60,5 +60,17 @@ public class StatisticRepository {
             System.out.println("Pause");
         }
         return currentStatistics;
+    }
+
+    public boolean existMeasurementsForDate(LocalDate date, Connection connection) {
+        return false;
+    }
+
+    public Map<String, GroupMonthStatisticDTO> findMeasurementsForDate(LocalDate now, Connection connection) {
+        return null;
+    }
+
+    public void persistMeasurements(Collection<GroupMonthStatisticDTO> values, Connection connection) {
+
     }
 }
