@@ -1,10 +1,10 @@
 package com.am.telegram.groupstat.user;
 
+import static com.am.telegram.groupstat.user.operations.Operations.*;
+
 import com.am.telegram.groupstat.user.operations.Operations;
 import com.pengrad.telegrambot.model.request.Keyboard;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
-
-import static com.am.telegram.groupstat.user.operations.Operations.*;
 
 public class Assistant {
 

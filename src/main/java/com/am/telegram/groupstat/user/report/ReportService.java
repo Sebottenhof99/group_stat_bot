@@ -1,13 +1,10 @@
 package com.am.telegram.groupstat.user.report;
 
+import static java.util.stream.Collectors.groupingBy;
+
 import com.am.telegram.groupstat.user.report.concurrency.ReportSubscriber;
 import com.am.telegram.groupstat.user.report.statistic.GroupStatistic;
 import com.am.telegram.groupstat.user.report.statistic.StatisticService;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,8 +17,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import static java.util.stream.Collectors.groupingBy;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ReportService {
 

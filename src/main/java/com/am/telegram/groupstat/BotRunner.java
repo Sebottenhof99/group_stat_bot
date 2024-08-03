@@ -9,24 +9,26 @@ import org.springframework.boot.ApplicationRunner;
 
 public class BotRunner implements ApplicationRunner {
 
-    private static Logger log = LogManager.getLogger(BotRunner.class);
+  private static Logger log = LogManager.getLogger(BotRunner.class);
 
-    private final TelegramBot bot;
-    private final StatUpdateListener updateListener;
-    private final ReportService reportService;
+  private final TelegramBot bot;
+  private final StatUpdateListener updateListener;
+  private final ReportService reportService;
 
-    public BotRunner(TelegramBot bot, StatUpdateListener updateListener, ReportService reportService) {
-        this.bot = bot;
-        this.updateListener = updateListener;
-        this.reportService = reportService;
-    }
+  public BotRunner(
+      TelegramBot bot, StatUpdateListener updateListener, ReportService reportService) {
+    this.bot = bot;
+    this.updateListener = updateListener;
+    this.reportService = reportService;
+  }
 
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
-        bot.setUpdatesListener(updateListener);
+  @Override
+  public void run(ApplicationArguments args) throws Exception {
+    bot.setUpdatesListener(updateListener);
 
-        //reportService.createCurrentReport();
-   //    GetChatMemberCountResponse execute = bot.execute(new GetChatMemberCount("@urokimeditacii_norilsk"));
-     //  System.out.println(execute.count());
-    }
+    // reportService.createCurrentReport();
+    //    GetChatMemberCountResponse execute = bot.execute(new
+    // GetChatMemberCount("@urokimeditacii_norilsk"));
+    //  System.out.println(execute.count());
+  }
 }
