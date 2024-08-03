@@ -2,37 +2,37 @@ package com.am.telegram.groupstat;
 
 import com.am.telegram.groupstat.user.Assistant;
 import com.am.telegram.groupstat.user.AssistantDTO;
+import com.am.telegram.groupstat.user.AssistantRepository;
 import com.am.telegram.groupstat.user.Assistants;
-import com.am.telegram.groupstat.user.AssistentRepository;
 
 import java.util.Optional;
 
 public class AssistantService {
 
-    private final AssistentRepository assistentRepository;
+    private final AssistantRepository assistantRepository;
 
-    public AssistantService(AssistentRepository assistentRepository) {
-        this.assistentRepository = assistentRepository;
+    public AssistantService(AssistantRepository assistantRepository) {
+        this.assistantRepository = assistantRepository;
     }
 
     public Optional<Assistant> assistantOf(String username) {
-        Optional<AssistantDTO> userByUsername = assistentRepository.getUserByUsername(username);
+        Optional<AssistantDTO> userByUsername = assistantRepository.getUserByUsername(username);
         return userByUsername.map(Assistant::new);
     }
 
     public void save(Assistant assistant) {
-        assistentRepository.saveUser(assistant.toDTO());
+        assistantRepository.saveUser(assistant.toDTO());
     }
 
     public void save(AssistantDTO assistantDTO) {
-        assistentRepository.saveUser(assistantDTO);
+        assistantRepository.saveUser(assistantDTO);
     }
 
     public Assistants admins() {
-        return new Assistants(assistentRepository.findAllAdmins());
+        return new Assistants(assistantRepository.findAllAdmins());
     }
 
     public Assistants users() {
-        return new Assistants(assistentRepository.findAllUsers());
+        return new Assistants(assistantRepository.findAllUsers());
     }
 }

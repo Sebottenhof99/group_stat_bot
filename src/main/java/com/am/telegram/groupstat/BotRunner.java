@@ -2,8 +2,6 @@ package com.am.telegram.groupstat;
 
 import com.am.telegram.groupstat.user.report.ReportService;
 import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.request.GetChatMemberCount;
-import com.pengrad.telegrambot.response.GetChatMemberCountResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.ApplicationArguments;
@@ -25,8 +23,9 @@ public class BotRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-           // bot.setUpdatesListener(updateListener);
-        reportService.createCurrentReport();
+        bot.setUpdatesListener(updateListener);
+
+        //reportService.createCurrentReport();
    //    GetChatMemberCountResponse execute = bot.execute(new GetChatMemberCount("@urokimeditacii_norilsk"));
      //  System.out.println(execute.count());
     }

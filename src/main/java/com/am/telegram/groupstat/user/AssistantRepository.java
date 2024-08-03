@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class AssistentRepository {
+public class AssistantRepository {
 
     private final Map<String, AssistantDTO> persistedUsers = new HashMap<>();
 
-    private static final Logger log = LoggerFactory.getLogger(AssistentRepository.class);
+    private static final Logger log = LoggerFactory.getLogger(AssistantRepository.class);
 
     @PostConstruct
     public void init() {
@@ -22,7 +22,15 @@ public class AssistentRepository {
         user1.setAdmin(true);
         user1.setHasReadAccess(true);
         user1.setSubscribed(false);
+
+        AssistantDTO user2 = new AssistantDTO();
+        user2.setUserName("kat_iakov");
+        user2.setAdmin(true);
+        user2.setHasReadAccess(true);
+        user2.setSubscribed(false);
+
         persistedUsers.put("f_zoidberg", user1);
+        persistedUsers.put("kat_iakov", user2);
     }
 
 

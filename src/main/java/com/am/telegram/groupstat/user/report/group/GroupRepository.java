@@ -10,7 +10,7 @@ import java.util.List;
 public class GroupRepository {
 
     public List<GroupDTO> findAllGroups(Connection connection) throws SQLException {
-        String query = "SELECT * FROM groups";
+        String query = "SELECT GROUP_ID, GROUP_INTERNAL_NAME, GROUP_CITY, GROUP_CATEGORY, GROUP_ADDED_AT, GROUP_ADDED_BY FROM groups";
         List<GroupDTO> groupDTOs = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet rs = preparedStatement.executeQuery()) {
@@ -22,7 +22,6 @@ public class GroupRepository {
                 groupDTO.setCategory(rs.getString("GROUP_CATEGORY"));
                 groupDTO.setAddedAt(rs.getDate("GROUP_ADDED_AT").toLocalDate());
                 groupDTO.setAddedBy(rs.getString("GROUP_ADDED_BY"));
-                groupDTO.setPaused(rs.getBoolean("IS_GROUP_PAUSED"));
                 groupDTOs.add(groupDTO);
             }
         }

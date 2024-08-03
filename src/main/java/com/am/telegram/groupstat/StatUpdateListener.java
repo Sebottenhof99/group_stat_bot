@@ -1,7 +1,6 @@
 package com.am.telegram.groupstat;
 
 import com.am.telegram.groupstat.user.Assistant;
-
 import com.am.telegram.groupstat.user.operations.Operations;
 import com.am.telegram.groupstat.user.scennarios.ScenarioFactory;
 import com.pengrad.telegrambot.TelegramBot;
@@ -31,32 +30,37 @@ public class StatUpdateListener implements UpdatesListener {
     public int process(List<Update> updates) {
 
         for (Update update : updates) {
-
-            Optional<Assistant> assistant = assistantService.assistantOf(update.message().chat().username());
-            if (assistant.isEmpty()) {
-                bot.execute(new SendMessage(update.message().chat().id(), "No permissions!"));
-                break;
-            }
-            if (update.message()== null || update.message().text() == null){
-                bot.execute(new SendMessage(update.message().chat().id(), "Unsupported communication medium"));
-                break;
-            }
-
-            if ("/start".equals(update.message().text())) {
-                bot.execute(new SendMessage(update.message().chat().id(), "Please selection an option").replyMarkup(assistant.get().availableOperations()));
-            } else {
-                try {
-                    assistant.get().memorizeLastGivenAnswer(update.message().text());
-                    Operations operations = assistant.get().lastActiveOperation() == Operations.EMPTY ?
-                            Operations.valueOf(update.message().text()) : assistant.get().lastActiveOperation();
-                    scenarioFactory.selectScenario(assistant.get(), operations).execute(update.message().chat().id());
-
-                } catch (Exception e) {
-                    log.error("Unexpected error: ", e);
-                    bot.execute(new SendMessage(update.message().chat().id(), "Unsupported operation: Please choice from given operations!"));
-                }
-            }
+            Thread thread = new Thread(() -> processUpdate(update));
+            thread.start();
         }
         return CONFIRMED_UPDATES_ALL;
+    }
+
+    private void processUpdate(Update update) {
+        Optional<Assistant> assistant = assistantService.assistantOf(update.message().chat().username());
+        if (assistant.isEmpty()) {
+            bot.execute(new SendMessage(update.message().chat().id(), "No permissions!"));
+            return;
+        }
+        if (update.message() == null || update.message().text() == null) {
+            bot.execute(new SendMessage(update.message().chat().id(), "Unsupported communication medium"));
+            return;
+        }
+
+        if ("/start".equals(update.message().text())) {
+            bot.execute(new SendMessage(update.message().chat().id(), "Please selection an option").replyMarkup(assistant.get().availableOperations()));
+        } else {
+            try {
+                assistant.get().memorizeLastGivenAnswer(update.message().text());
+                Operations operations = assistant.get().lastActiveOperation() == Operations.EMPTY ?
+                        Operations.valueOf(update.message().text()) : assistant.get().lastActiveOperation();
+                scenarioFactory.selectScenario(assistant.get(), operations).execute(update.message().chat().id());
+
+            } catch (Exception e) {
+                log.error("Unexpected error: ", e);
+                bot.execute(new SendMessage(update.message().chat().id(), "Unsupported operation: Please choice from given operations!"));
+            }
+
+        }
     }
 }

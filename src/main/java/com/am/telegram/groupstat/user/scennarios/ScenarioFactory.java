@@ -3,16 +3,19 @@ package com.am.telegram.groupstat.user.scennarios;
 import com.am.telegram.groupstat.AssistantService;
 import com.am.telegram.groupstat.user.Assistant;
 import com.am.telegram.groupstat.user.operations.Operations;
+import com.am.telegram.groupstat.user.report.ReportService;
 import com.pengrad.telegrambot.TelegramBot;
 
 public class ScenarioFactory {
 
     private final TelegramBot bot;
     private final AssistantService assistantService;
+    private final ReportService reportService;
 
-    public ScenarioFactory(TelegramBot bot, AssistantService assistantService) {
+    public ScenarioFactory(TelegramBot bot, AssistantService assistantService, ReportService reportService) {
         this.bot = bot;
         this.assistantService = assistantService;
+        this.reportService = reportService;
     }
 
 
@@ -23,6 +26,7 @@ public class ScenarioFactory {
 
             }
             case GET_CURRENT_REPORT -> {
+                return new GenerateReportScenario(bot, reportService);
             }
 
             case SUBSCRIBE -> {

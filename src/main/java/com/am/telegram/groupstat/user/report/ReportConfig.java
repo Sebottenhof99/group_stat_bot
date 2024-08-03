@@ -12,7 +12,6 @@ import javax.sql.DataSource;
 @Configuration
 public class ReportConfig {
 
-
     @Bean
     public GroupRepository groupRepository() {
         return new GroupRepository();

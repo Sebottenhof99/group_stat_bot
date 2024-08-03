@@ -32,8 +32,8 @@ public class GroupMonthStatisticDTO {
         this.measuredAt = measuredAt;
     }
 
-    public int getMemberCount() {
-        return memberCount;
+    public String getMemberCount() {
+        return Integer.toString(memberCount);
     }
 
     public void setMemberCount(int memberCount) {
