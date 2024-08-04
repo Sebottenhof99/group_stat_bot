@@ -13,4 +13,5 @@ public enum Operations {
   ADD_ADMIN,
   LIST_ADMINS,
   LIST_USERS,
+  CANCEL
 }

@@ -64,6 +64,9 @@ public class ScenarioFactory {
       case LIST_USERS -> {
         return new ListUsersScenario(assistant, userService);
       }
+      case CANCEL -> {
+        return new CancelScenario(assistant, assistantService);
+      }
     }
     throw new RuntimeException();
   }
