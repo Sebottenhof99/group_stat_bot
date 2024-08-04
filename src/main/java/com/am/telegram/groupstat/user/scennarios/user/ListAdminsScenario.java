@@ -1,7 +1,7 @@
 package com.am.telegram.groupstat.user.scennarios.user;
 
 import com.am.telegram.groupstat.user.assistant.Assistant;
-import com.am.telegram.groupstat.user.assistant.ListAssistant;
+import com.am.telegram.groupstat.user.assistant.UserListAssistant;
 import com.am.telegram.groupstat.user.scennarios.Scenario;
 import com.am.telegram.groupstat.user.user.UserService;
 
@@ -18,6 +18,6 @@ public class ListAdminsScenario implements Scenario {
 
   @Override
   public void execute(long chatId) {
-    new ListAssistant(assistant, userService).listAdmins(chatId);
+    new UserListAssistant(assistant, userService).listAdmins();
   }
 }

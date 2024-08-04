@@ -2,8 +2,10 @@ package com.am.telegram.groupstat.user.scennarios;
 
 import com.am.telegram.groupstat.user.assistant.Assistant;
 import com.am.telegram.groupstat.user.assistant.AssistantService;
+import com.am.telegram.groupstat.user.group.GroupManagementService;
 import com.am.telegram.groupstat.user.operations.Operations;
 import com.am.telegram.groupstat.user.report.ReportService;
+import com.am.telegram.groupstat.user.scennarios.group.ListGroupsScenario;
 import com.am.telegram.groupstat.user.scennarios.report.GenerateReportScenario;
 import com.am.telegram.groupstat.user.scennarios.subscribtion.SubscribeScenario;
 import com.am.telegram.groupstat.user.scennarios.subscribtion.UnsubscribeScenario;
@@ -17,16 +19,19 @@ public class ScenarioFactory {
   private final AssistantService assistantService;
   private final ReportService reportService;
   private final UserService userService;
+  private final GroupManagementService groupManagementService;
 
   public ScenarioFactory(
       TelegramBot bot,
       AssistantService assistantService,
       UserService userService,
-      ReportService reportService) {
+      ReportService reportService,
+      GroupManagementService groupManagementService) {
     this.bot = bot;
     this.assistantService = assistantService;
     this.reportService = reportService;
     this.userService = userService;
+    this.groupManagementService = groupManagementService;
   }
 
   public Scenario selectScenario(Assistant assistant, Operations operations) {
@@ -55,6 +60,10 @@ public class ScenarioFactory {
 
       case REMOVE_USER -> {
         return new RemoveUserScenario(assistant, assistantService, userService);
+      }
+
+      case LIST_GROUPS -> {
+        return new ListGroupsScenario(assistant, groupManagementService);
       }
 
       case ADD_NEW_GROUP -> {}

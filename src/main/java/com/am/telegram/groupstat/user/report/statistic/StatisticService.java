@@ -65,9 +65,7 @@ public class StatisticService {
     if (statisticRepository.existMeasurementsForDate(LocalDate.now(), connection)) {
       currentStatistics = statisticRepository.findStatisticsForDate(LocalDate.now(), connection);
     } else {
-      currentStatistics =
-          statisticRepository.measureCurrentCountOfUsers(
-              groupDTOs.stream().filter(groupDTO -> !groupDTO.isPaused()).toList());
+      currentStatistics = statisticRepository.measureCurrentCountOfUsers(groupDTOs);
       statisticRepository.persistMeasurements(currentStatistics.values(), connection);
     }
     return currentStatistics;

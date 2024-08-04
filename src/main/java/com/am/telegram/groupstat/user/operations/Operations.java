@@ -7,6 +7,7 @@ public enum Operations {
   UNSUBSCRIBE,
   ADD_USER,
   REMOVE_USER,
+  LIST_GROUPS,
   ADD_NEW_GROUP,
   PAUSE_GROUP,
   RESUME_GROUP,

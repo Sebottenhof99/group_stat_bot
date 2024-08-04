@@ -10,7 +10,6 @@ public class GroupDTO {
   private String category;
   private LocalDate addedAt;
   private String addedBy;
-  private boolean isPaused;
 
   public int getId() {
     return id;
@@ -66,13 +65,5 @@ public class GroupDTO {
 
   public void setAddedBy(String addedBy) {
     this.addedBy = addedBy;
-  }
-
-  public boolean isPaused() {
-    return isPaused;
-  }
-
-  public void setPaused(boolean paused) {
-    isPaused = paused;
   }
 }

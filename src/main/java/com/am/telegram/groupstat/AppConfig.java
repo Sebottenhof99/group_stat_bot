@@ -2,6 +2,8 @@ package com.am.telegram.groupstat;
 
 import com.am.telegram.groupstat.user.assistant.AssistantRepository;
 import com.am.telegram.groupstat.user.assistant.AssistantService;
+import com.am.telegram.groupstat.user.group.GroupManagementRepository;
+import com.am.telegram.groupstat.user.group.GroupManagementService;
 import com.am.telegram.groupstat.user.report.ReportConfig;
 import com.am.telegram.groupstat.user.report.ReportService;
 import com.am.telegram.groupstat.user.scennarios.ScenarioFactory;
@@ -39,12 +41,25 @@ public class AppConfig {
   }
 
   @Bean
+  public GroupManagementRepository groupManagementRepository() {
+    return new GroupManagementRepository();
+  }
+
+  @Bean
+  public GroupManagementService groupManagementService(
+      DataSource ds, GroupManagementRepository groupManagementRepository) {
+    return new GroupManagementService(ds, groupManagementRepository);
+  }
+
+  @Bean
   public ScenarioFactory scenarioFactory(
       TelegramBot bot,
       AssistantService assistantService,
       UserService userService,
-      ReportService reportService) {
-    return new ScenarioFactory(bot, assistantService, userService, reportService);
+      ReportService reportService,
+      GroupManagementService groupManagementService) {
+    return new ScenarioFactory(
+        bot, assistantService, userService, reportService, groupManagementService);
   }
 
   @Bean(destroyMethod = "shutdown")

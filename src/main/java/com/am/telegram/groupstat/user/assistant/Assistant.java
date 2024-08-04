@@ -30,6 +30,7 @@ public class Assistant {
       replyKeyboardMarkup.addRow(
           GET_CURRENT_REPORT.name(),
           userDTO.isSubscribed() ? UNSUBSCRIBE.name() : SUBSCRIBE.name());
+      replyKeyboardMarkup.addRow(LIST_GROUPS.name());
     }
 
     if (userDTO.isAdmin()) {

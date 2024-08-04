@@ -1,3 +1,8 @@
 package com.am.telegram.groupstat.user.scennarios.group;
 
-public class ResumeGroupScenario {}
+import com.am.telegram.groupstat.user.scennarios.Scenario;
+
+public class ResumeGroupScenario implements Scenario {
+  @Override
+  public void execute(long chatId) {}
+}
