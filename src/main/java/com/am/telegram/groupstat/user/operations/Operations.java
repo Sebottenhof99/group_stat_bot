@@ -9,7 +9,6 @@ public enum Operations {
   REMOVE_USER,
   ADD_NEW_GROUP,
   PAUSE_GROUP,
-  REMOVE_GROUP,
   ADD_ADMIN,
   LIST_ADMINS,
   LIST_USERS,
