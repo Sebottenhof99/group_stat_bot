@@ -1,17 +1,19 @@
 package com.am.telegram.groupstat.user.scennarios.report;
 
+import com.am.telegram.groupstat.user.assistant.Assistant;
 import com.am.telegram.groupstat.user.report.ReportService;
 import com.am.telegram.groupstat.user.report.concurrency.ReportSubscriber;
 import com.am.telegram.groupstat.user.scennarios.Scenario;
 import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.request.SendMessage;
 
 public class GenerateReportScenario implements Scenario {
 
+  private final Assistant assistant;
   private final TelegramBot bot;
   private final ReportService reportService;
 
-  public GenerateReportScenario(TelegramBot bot, ReportService reportService) {
+  public GenerateReportScenario(Assistant assistant, TelegramBot bot, ReportService reportService) {
+    this.assistant = assistant;
     this.bot = bot;
     this.reportService = reportService;
   }
@@ -24,10 +26,9 @@ public class GenerateReportScenario implements Scenario {
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
-    bot.execute(
-        new SendMessage(
-            chatId,
-            "Report generation is in progress. It can take several minutes."
-                + "As soon as report has been generated you will receive a copy of it"));
+
+    assistant.provideMessageToUser(
+        "Report generation is in progress. It can take several minutes."
+            + "As soon as report has been generated you will receive a copy of it");
   }
 }

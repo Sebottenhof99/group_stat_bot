@@ -22,11 +22,16 @@ public class BasicGroupStatistic implements GroupStatistic {
   public void writeInRow(Row row) {
     row.createCell(0).setCellValue(groupDTO.getCity());
     row.createCell(1).setCellValue(currentMonthStatisticDTO.getMemberCount());
-    row.createCell(2).setCellValue(previousMonthStatisticDTO.getMemberCount());
+    row.createCell(2)
+        .setCellValue(
+            previousMonthStatisticDTO == null ? "0" : previousMonthStatisticDTO.getMemberCount());
     row.createCell(3)
         .setCellValue(
             Integer.parseInt(currentMonthStatisticDTO.getMemberCount())
-                - Integer.parseInt(previousMonthStatisticDTO.getMemberCount()));
+                - Integer.parseInt(
+                    previousMonthStatisticDTO == null
+                        ? "0"
+                        : previousMonthStatisticDTO.getMemberCount()));
   }
 
   public String category() {

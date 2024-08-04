@@ -10,6 +10,16 @@ public class GroupDTO {
   private LocalDateTime addedAt;
   private String addedBy;
 
+  public GroupDTO(String groupName, String groupCity, String groupCategory, String addedBy) {
+    this.groupName = groupName;
+    this.groupCity = groupCity;
+    this.groupCategory = groupCategory;
+    this.addedAt = LocalDateTime.now();
+    this.addedBy = addedBy;
+  }
+
+  public GroupDTO() {}
+
   public int getGroupId() {
     return groupId;
   }

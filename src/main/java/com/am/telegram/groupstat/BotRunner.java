@@ -25,10 +25,5 @@ public class BotRunner implements ApplicationRunner {
   @Override
   public void run(ApplicationArguments args) throws Exception {
     bot.setUpdatesListener(updateListener);
-
-    // reportService.createCurrentReport();
-    //    GetChatMemberCountResponse execute = bot.execute(new
-    // GetChatMemberCount("@urokimeditacii_norilsk"));
-    //  System.out.println(execute.count());
   }
 }

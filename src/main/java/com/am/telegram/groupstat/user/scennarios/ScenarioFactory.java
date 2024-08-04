@@ -5,6 +5,7 @@ import com.am.telegram.groupstat.user.assistant.AssistantService;
 import com.am.telegram.groupstat.user.group.GroupManagementService;
 import com.am.telegram.groupstat.user.operations.Operations;
 import com.am.telegram.groupstat.user.report.ReportService;
+import com.am.telegram.groupstat.user.scennarios.group.AddNewGroupScenario;
 import com.am.telegram.groupstat.user.scennarios.group.ListGroupsScenario;
 import com.am.telegram.groupstat.user.scennarios.report.GenerateReportScenario;
 import com.am.telegram.groupstat.user.scennarios.subscribtion.SubscribeScenario;
@@ -39,7 +40,7 @@ public class ScenarioFactory {
     switch (operations) {
       case EMPTY -> {}
       case GET_CURRENT_REPORT -> {
-        return new GenerateReportScenario(bot, reportService);
+        return new GenerateReportScenario(assistant, bot, reportService);
       }
 
       case SUBSCRIBE -> {
@@ -66,7 +67,9 @@ public class ScenarioFactory {
         return new ListGroupsScenario(assistant, groupManagementService);
       }
 
-      case ADD_NEW_GROUP -> {}
+      case ADD_NEW_GROUP -> {
+        return new AddNewGroupScenario(assistant, assistantService, groupManagementService, bot);
+      }
 
       case PAUSE_GROUP -> {}
 

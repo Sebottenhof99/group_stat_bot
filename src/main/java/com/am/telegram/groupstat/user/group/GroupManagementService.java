@@ -1,5 +1,6 @@
 package com.am.telegram.groupstat.user.group;
 
+
 import static java.util.stream.Collectors.groupingBy;
 
 import java.sql.Connection;
@@ -41,6 +42,19 @@ public class GroupManagementService {
       }
 
       return groupsAsString.toString();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void save(GroupDTO groupDTO) {
+
+    try (Connection con = ds.getConnection()) {
+      if (groupDTO.getGroupId() > 0) {
+        groupManagementRepository.update(con, groupDTO);
+      } else {
+        groupManagementRepository.persist(con, groupDTO);
+      }
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
