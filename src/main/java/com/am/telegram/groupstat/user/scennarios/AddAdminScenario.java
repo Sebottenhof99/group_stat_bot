@@ -1,46 +1,30 @@
 package com.am.telegram.groupstat.user.scennarios;
 
-import com.am.telegram.groupstat.AssistantService;
-import com.am.telegram.groupstat.user.Assistant;
-import com.am.telegram.groupstat.user.UserManagementPanel;
-import com.am.telegram.groupstat.user.operations.Operations;
-import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.request.SendMessage;
+import com.am.telegram.groupstat.user.assistant.Assistant;
+import com.am.telegram.groupstat.user.assistant.AssistantService;
+import com.am.telegram.groupstat.user.assistant.UserAssistant;
+import com.am.telegram.groupstat.user.user.UserDTO;
+import com.am.telegram.groupstat.user.user.UserService;
+import java.util.Optional;
 
 public class AddAdminScenario implements Scenario {
 
   private final Assistant assistant;
-  private final TelegramBot bot;
-  private final AssistantService assistantService;
-  private final UserManagementPanel userManagementPanel = new UserManagementPanel();
 
-  public AddAdminScenario(Assistant assistant, TelegramBot bot, AssistantService assistantService) {
+  private final AssistantService assistantService;
+  private final UserService userService;
+
+  public AddAdminScenario(
+      Assistant assistant, AssistantService assistantService, UserService userService) {
     this.assistant = assistant;
-    this.bot = bot;
     this.assistantService = assistantService;
+    this.userService = userService;
   }
 
   @Override
   public void execute(long chatId) {
-    if (!assistant.isAdmin()) {
-      bot.execute(new SendMessage(chatId, "You have no permissions for this operation"));
-      return;
-    }
-
-    if (assistant.lastGivenAnswer() == null || assistant.lastGivenAnswer().isEmpty()) {
-      assistant.memorizeLastActiveOperation(Operations.ADD_ADMIN);
-      bot.execute(new SendMessage(chatId, "Please, provide username"));
-    } else {
-      // TODO if user already exists
-      // TODO check before persist
-      assistantService.save(userManagementPanel.createAdmin(assistant.lastGivenAnswer()));
-      bot.execute(
-          new SendMessage(
-                  chatId, "Admin with nickname " + assistant.lastGivenAnswer() + " has been added")
-              .replyMarkup(assistant.availableOperations()));
-      assistant.memorizeLastActiveOperation(Operations.EMPTY);
-      assistant.memorizeLastGivenAnswer(null);
-    }
+    Optional<UserDTO> userDTO = new UserAssistant(assistant, userService).addAdmin();
+    userDTO.ifPresent(userService::save);
     assistantService.save(assistant);
   }
 }

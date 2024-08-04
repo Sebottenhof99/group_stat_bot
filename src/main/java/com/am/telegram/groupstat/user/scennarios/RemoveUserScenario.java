@@ -7,13 +7,13 @@ import com.am.telegram.groupstat.user.user.UserDTO;
 import com.am.telegram.groupstat.user.user.UserService;
 import java.util.Optional;
 
-public class AddUserScenario implements Scenario {
+public class RemoveUserScenario implements Scenario {
 
   private final Assistant assistant;
   private final AssistantService assistantService;
   private final UserService userService;
 
-  public AddUserScenario(
+  public RemoveUserScenario(
       Assistant assistant, AssistantService assistantService, UserService userService) {
     this.assistant = assistant;
     this.assistantService = assistantService;
@@ -22,8 +22,8 @@ public class AddUserScenario implements Scenario {
 
   @Override
   public void execute(long chatId) {
-    Optional<UserDTO> userDTO = new UserAssistant(assistant, userService).addRegularUser();
-    userDTO.ifPresent(userService::save);
+    Optional<UserDTO> userDTO = new UserAssistant(assistant, userService).removeUser();
+    userDTO.ifPresent(userService::remove);
     assistantService.save(assistant);
   }
 }

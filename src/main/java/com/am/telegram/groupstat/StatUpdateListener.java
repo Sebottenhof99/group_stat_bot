@@ -1,6 +1,7 @@
 package com.am.telegram.groupstat;
 
-import com.am.telegram.groupstat.user.Assistant;
+import com.am.telegram.groupstat.user.assistant.Assistant;
+import com.am.telegram.groupstat.user.assistant.AssistantService;
 import com.am.telegram.groupstat.user.operations.Operations;
 import com.am.telegram.groupstat.user.scennarios.ScenarioFactory;
 import com.pengrad.telegrambot.TelegramBot;
@@ -54,12 +55,13 @@ public class StatUpdateListener implements UpdatesListener {
                 Operations operations = assistant.get().lastActiveOperation() == Operations.EMPTY ?
                         Operations.valueOf(update.message().text()) : assistant.get().lastActiveOperation();
                 scenarioFactory.selectScenario(assistant.get(), operations).execute(update.message().chat().id());
-
+        bot.execute(
+            new SendMessage(update.message().chat().id(), assistant.get().responseToUser())
+                .replyMarkup(assistant.get().availableOperations()));
             } catch (Exception e) {
                 log.error("Unexpected error: ", e);
                 bot.execute(new SendMessage(update.message().chat().id(), "Unsupported operation: Please choice from given operations!"));
             }
-
         }
     }
 }

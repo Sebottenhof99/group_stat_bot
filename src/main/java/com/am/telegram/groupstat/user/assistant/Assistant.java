@@ -1,16 +1,20 @@
-package com.am.telegram.groupstat.user;
+package com.am.telegram.groupstat.user.assistant;
 
 import static com.am.telegram.groupstat.user.operations.Operations.*;
 
 import com.am.telegram.groupstat.user.operations.Operations;
+import com.am.telegram.groupstat.user.user.UserDTO;
 import com.pengrad.telegrambot.model.request.Keyboard;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 
 public class Assistant {
 
+  private final UserDTO userDTO;
     private final AssistantDTO assistantDTO;
+  private String responseToUser;
 
-    public Assistant(AssistantDTO assistantDTO) {
+  public Assistant(UserDTO userDTO, AssistantDTO assistantDTO) {
+    this.userDTO = userDTO;
         this.assistantDTO = assistantDTO;
     }
 
@@ -21,11 +25,13 @@ public class Assistant {
                 .resizeKeyboard(true)    // optional
                 .selective(true);
 
-        if (assistantDTO.isAdmin() || assistantDTO.isHasReadAccess()) {
-            replyKeyboardMarkup.addRow(GET_CURRENT_REPORT.name(), assistantDTO.isSubscribed() ? UNSUBSCRIBE.name() : SUBSCRIBE.name());
+    if (userDTO.isAdmin() || userDTO.isHasReadAccess()) {
+      replyKeyboardMarkup.addRow(
+          GET_CURRENT_REPORT.name(),
+          userDTO.isSubscribed() ? UNSUBSCRIBE.name() : SUBSCRIBE.name());
         }
 
-        if (assistantDTO.isAdmin()) {
+    if (userDTO.isAdmin()) {
             String[] userManagement = new String[]{ADD_ADMIN.name(), ADD_USER.name(), REMOVE_USER.name()};
             replyKeyboardMarkup.addRow(userManagement);
 
@@ -57,29 +63,41 @@ public class Assistant {
     }
 
     public Operations lastActiveOperation() {
-        if (assistantDTO.getLastActiveOperation() == null || assistantDTO.getLastActiveOperation().isEmpty()) {
+    if (assistantDTO.getActiveOperation() == null || assistantDTO.getActiveOperation().isEmpty()) {
             return EMPTY;
         }
-        return Operations.valueOf(assistantDTO.getLastActiveOperation());
+    return Operations.valueOf(assistantDTO.getActiveOperation());
     }
 
     public void memorizeLastActiveOperation(Operations lastActiveOperation) {
-        assistantDTO.setLastActiveOperation(lastActiveOperation.name());
+    assistantDTO.setActiveOperation(lastActiveOperation.name());
     }
 
-    public boolean isAdmin() {
-        return assistantDTO.isAdmin();
+  public boolean isAdmin() {
+    return userDTO.isAdmin();
     }
 
-    public void unsubscribeUser() {
-        assistantDTO.setSubscribed(false);
-    }
+  public boolean hasReadAccess() {
+    return userDTO.isHasReadAccess();
+  }
 
-    public void subscribeUser() {
-        assistantDTO.setSubscribed(true);
-    }
+  public UserDTO getUserDTO() {
+    return userDTO;
+  }
 
-    public boolean hasReadAccess() {
-        return assistantDTO.isHasReadAccess();
+  public boolean userWroteSomething() {
+    return lastGivenAnswer() != null && !lastGivenAnswer().isEmpty();
+  }
+
+  public String responseToUser() {
+    return responseToUser;
+  }
+
+  public void provideMessageToUser(String message) {
+    this.responseToUser = message;
+  }
+
+  public AssistantDTO getAssistantDTO() {
+    return assistantDTO;
     }
 }

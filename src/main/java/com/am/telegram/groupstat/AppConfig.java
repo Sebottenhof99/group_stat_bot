@@ -1,10 +1,14 @@
 package com.am.telegram.groupstat;
 
-import com.am.telegram.groupstat.user.AssistantRepository;
+import com.am.telegram.groupstat.user.assistant.AssistantRepository;
+import com.am.telegram.groupstat.user.assistant.AssistantService;
 import com.am.telegram.groupstat.user.report.ReportConfig;
 import com.am.telegram.groupstat.user.report.ReportService;
 import com.am.telegram.groupstat.user.scennarios.ScenarioFactory;
+import com.am.telegram.groupstat.user.user.UserRepository;
+import com.am.telegram.groupstat.user.user.UserService;
 import com.pengrad.telegrambot.TelegramBot;
+import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -14,19 +18,33 @@ import org.springframework.context.annotation.Import;
 public class AppConfig {
 
   @Bean
-  public AssistantRepository userRepository() {
+  public UserRepository userRepository() {
+    return new UserRepository();
+  }
+
+  @Bean
+  public UserService userService(DataSource ds, UserRepository userRepository) {
+    return new UserService(ds, userRepository);
+  }
+
+  @Bean
+  public AssistantRepository assistantRepository() {
     return new AssistantRepository();
   }
 
   @Bean
-  public AssistantService userService(AssistantRepository assistantRepository) {
-    return new AssistantService(assistantRepository);
+  public AssistantService assistantService(
+      DataSource ds, UserRepository userRepository, AssistantRepository assistantRepository) {
+    return new AssistantService(ds, userRepository, assistantRepository);
   }
 
   @Bean
   public ScenarioFactory scenarioFactory(
-      TelegramBot bot, AssistantService assistantService, ReportService reportService) {
-    return new ScenarioFactory(bot, assistantService, reportService);
+      TelegramBot bot,
+      AssistantService assistantService,
+      UserService userService,
+      ReportService reportService) {
+    return new ScenarioFactory(bot, assistantService, userService, reportService);
   }
 
   @Bean(destroyMethod = "shutdown")

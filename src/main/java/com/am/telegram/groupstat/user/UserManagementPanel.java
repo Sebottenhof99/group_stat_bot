@@ -1,20 +1,23 @@
 package com.am.telegram.groupstat.user;
 
+import com.am.telegram.groupstat.user.user.UserDTO;
+import java.time.LocalDateTime;
+
 public class UserManagementPanel {
 
-  public AssistantDTO createUser(String userName) {
-    AssistantDTO assistantDTO = new AssistantDTO();
-    assistantDTO.setUserName(userName);
-    assistantDTO.setAdmin(false);
-    assistantDTO.setSubscribed(false);
-    assistantDTO.setHasReadAccess(true);
-    assistantDTO.setLastActiveOperation("EMPTY");
-    return assistantDTO;
+  public UserDTO createUser(String addedBy) {
+    UserDTO userDTO = new UserDTO();
+    userDTO.setAddedBy(addedBy);
+    userDTO.setAddedAt(LocalDateTime.now());
+    userDTO.setAdmin(false);
+    userDTO.setSubscribed(false);
+    userDTO.setHasReadAccess(true);
+    return userDTO;
   }
 
-  public AssistantDTO createAdmin(String username) {
-    AssistantDTO user = createUser(username);
-    user.setAdmin(true);
-    return user;
+  public UserDTO createAdmin(String addedBy) {
+    UserDTO userDTO = createUser(addedBy);
+    userDTO.setAdmin(true);
+    return userDTO;
   }
 }

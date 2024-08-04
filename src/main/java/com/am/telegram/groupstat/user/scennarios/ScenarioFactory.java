@@ -1,9 +1,10 @@
 package com.am.telegram.groupstat.user.scennarios;
 
-import com.am.telegram.groupstat.AssistantService;
-import com.am.telegram.groupstat.user.Assistant;
+import com.am.telegram.groupstat.user.assistant.Assistant;
+import com.am.telegram.groupstat.user.assistant.AssistantService;
 import com.am.telegram.groupstat.user.operations.Operations;
 import com.am.telegram.groupstat.user.report.ReportService;
+import com.am.telegram.groupstat.user.user.UserService;
 import com.pengrad.telegrambot.TelegramBot;
 
 public class ScenarioFactory {
@@ -11,12 +12,17 @@ public class ScenarioFactory {
   private final TelegramBot bot;
   private final AssistantService assistantService;
   private final ReportService reportService;
+  private final UserService userService;
 
   public ScenarioFactory(
-      TelegramBot bot, AssistantService assistantService, ReportService reportService) {
+      TelegramBot bot,
+      AssistantService assistantService,
+      UserService userService,
+      ReportService reportService) {
     this.bot = bot;
     this.assistantService = assistantService;
     this.reportService = reportService;
+    this.userService = userService;
   }
 
   public Scenario selectScenario(Assistant assistant, Operations operations) {
@@ -28,33 +34,35 @@ public class ScenarioFactory {
       }
 
       case SUBSCRIBE -> {
-        return new SubscribeScenario(assistant, bot, assistantService);
+        return new SubscribeScenario(assistant, userService);
       }
 
       case UNSUBSCRIBE -> {
-        return new UnsubscribeScenario(assistant, bot, assistantService);
+        return new UnsubscribeScenario(assistant, userService);
       }
 
       case ADD_USER -> {
-        return new AddUserScenario(assistant, bot, assistantService);
+        return new AddUserScenario(assistant, assistantService, userService);
       }
 
-      case REMOVE_USER -> {}
+      case ADD_ADMIN -> {
+        return new AddAdminScenario(assistant, assistantService, userService);
+      }
+
+      case REMOVE_USER -> {
+        return new RemoveUserScenario(assistant, assistantService, userService);
+      }
 
       case ADD_NEW_GROUP -> {}
 
       case REMOVE_GROUP -> {}
 
-      case ADD_ADMIN -> {
-        return new AddAdminScenario(assistant, bot, assistantService);
-      }
-
       case LIST_ADMINS -> {
-        return new ListAdminsScenario(assistant, bot, assistantService);
+        return new ListAdminsScenario(assistant, userService);
       }
 
       case LIST_USERS -> {
-        return new ListUsersScenario(assistant, bot, assistantService);
+        return new ListUsersScenario(assistant, userService);
       }
     }
     throw new RuntimeException();

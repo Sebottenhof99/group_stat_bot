@@ -1,29 +1,22 @@
 package com.am.telegram.groupstat.user.scennarios;
 
-import com.am.telegram.groupstat.AssistantService;
-import com.am.telegram.groupstat.user.Assistant;
-import com.am.telegram.groupstat.user.Assistants;
-import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.request.SendMessage;
+import com.am.telegram.groupstat.user.assistant.Assistant;
+import com.am.telegram.groupstat.user.assistant.ListAssistant;
+import com.am.telegram.groupstat.user.user.UserService;
 
 public class ListUsersScenario implements Scenario {
 
   private final Assistant assistant;
-  private final TelegramBot bot;
-  private final AssistantService assistantService;
 
-  public ListUsersScenario(
-      Assistant assistant, TelegramBot bot, AssistantService assistantService) {
+  private final UserService userService;
+
+  public ListUsersScenario(Assistant assistant, UserService userService) {
     this.assistant = assistant;
-    this.bot = bot;
-    this.assistantService = assistantService;
+    this.userService = userService;
   }
 
   @Override
   public void execute(long chatId) {
-    if (assistant.isAdmin()) {
-      Assistants assistants = assistantService.users();
-      bot.execute(new SendMessage(chatId, "Regular users: \n" + assistants.toStringList()));
-    }
+    new ListAssistant(assistant, userService).listUsers(chatId);
   }
 }
