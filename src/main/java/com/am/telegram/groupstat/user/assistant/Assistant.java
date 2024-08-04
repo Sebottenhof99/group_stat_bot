@@ -45,7 +45,8 @@ public class Assistant {
       String[] showUsers = new String[] {LIST_USERS.name(), LIST_ADMINS.name()};
       replyKeyboardMarkup.addRow(showUsers);
 
-      String[] groupManagement = new String[] {ADD_NEW_GROUP.name(), PAUSE_GROUP.name()};
+      String[] groupManagement =
+          new String[] {ADD_NEW_GROUP.name(), PAUSE_GROUP.name(), RESUME_GROUP.name()};
       replyKeyboardMarkup.addRow(groupManagement);
     }
 

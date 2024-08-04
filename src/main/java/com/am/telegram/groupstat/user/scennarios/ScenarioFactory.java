@@ -4,6 +4,10 @@ import com.am.telegram.groupstat.user.assistant.Assistant;
 import com.am.telegram.groupstat.user.assistant.AssistantService;
 import com.am.telegram.groupstat.user.operations.Operations;
 import com.am.telegram.groupstat.user.report.ReportService;
+import com.am.telegram.groupstat.user.scennarios.report.GenerateReportScenario;
+import com.am.telegram.groupstat.user.scennarios.subscribtion.SubscribeScenario;
+import com.am.telegram.groupstat.user.scennarios.subscribtion.UnsubscribeScenario;
+import com.am.telegram.groupstat.user.scennarios.user.*;
 import com.am.telegram.groupstat.user.user.UserService;
 import com.pengrad.telegrambot.TelegramBot;
 
@@ -55,7 +59,9 @@ public class ScenarioFactory {
 
       case ADD_NEW_GROUP -> {}
 
-      case REMOVE_GROUP -> {}
+      case PAUSE_GROUP -> {}
+
+      case RESUME_GROUP -> {}
 
       case LIST_ADMINS -> {
         return new ListAdminsScenario(assistant, userService);

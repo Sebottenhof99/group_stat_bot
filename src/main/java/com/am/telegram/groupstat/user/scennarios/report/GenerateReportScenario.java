@@ -1,7 +1,8 @@
-package com.am.telegram.groupstat.user.scennarios;
+package com.am.telegram.groupstat.user.scennarios.report;
 
 import com.am.telegram.groupstat.user.report.ReportService;
 import com.am.telegram.groupstat.user.report.concurrency.ReportSubscriber;
+import com.am.telegram.groupstat.user.scennarios.Scenario;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.request.SendMessage;
 

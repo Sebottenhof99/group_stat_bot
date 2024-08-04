@@ -1,7 +1,8 @@
-package com.am.telegram.groupstat.user.scennarios;
+package com.am.telegram.groupstat.user.scennarios.subscribtion;
 
 import com.am.telegram.groupstat.user.assistant.Assistant;
 import com.am.telegram.groupstat.user.assistant.SubscriptionAssistant;
+import com.am.telegram.groupstat.user.scennarios.Scenario;
 import com.am.telegram.groupstat.user.user.UserService;
 
 public class UnsubscribeScenario implements Scenario {
