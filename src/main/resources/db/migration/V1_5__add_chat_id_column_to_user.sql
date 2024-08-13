@@ -1,0 +1,2 @@
+ALTER TABLE STAT_USERS
+    ADD STAT_USERS_CHAT_ID bigint unique;

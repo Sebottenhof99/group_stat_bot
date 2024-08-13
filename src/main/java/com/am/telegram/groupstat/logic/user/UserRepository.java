@@ -9,14 +9,14 @@ public class UserRepository {
 
   public List<UserDTO> findRegularUsers(Connection connection) throws SQLException {
     String sql =
-        "SELECT STAT_USER_ID, STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN, STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED FROM STAT_USERS WHERE STAT_USER_HAS_READ_ACCESS = true AND STAT_USER_IS_ADMIN = false ORDER BY STAT_USER_NAME DESC";
+        "SELECT STAT_USER_ID, STAT_USERS_CHAT_ID, STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN, STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED FROM STAT_USERS WHERE STAT_USER_HAS_READ_ACCESS = true AND STAT_USER_IS_ADMIN = false ORDER BY STAT_USER_NAME DESC";
     return requestUsers(connection, sql);
   }
 
   public List<UserDTO> findAdmins(Connection connection) throws SQLException {
     String sql =
         """
-        SELECT STAT_USER_ID, STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN, STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED
+        SELECT STAT_USER_ID, STAT_USERS_CHAT_ID, STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN, STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED
         FROM STAT_USERS
         WHERE STAT_USER_IS_ADMIN = true ORDER BY STAT_USER_NAME DESC
         """;
@@ -26,7 +26,7 @@ public class UserRepository {
   public Optional<UserDTO> findUserByName(Connection con, String userName) throws SQLException {
     String sql =
         """
-                 SELECT STAT_USER_ID, STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN, STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED
+                SELECT STAT_USER_ID, STAT_USERS_CHAT_ID, STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN, STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED
                 FROM STAT_USERS
                 WHERE STAT_USER_NAME = ?
                 """;
@@ -58,6 +58,7 @@ public class UserRepository {
   private UserDTO mapToDTO(ResultSet rs) throws SQLException {
     UserDTO userDTO = new UserDTO();
     userDTO.setUserId(rs.getInt("STAT_USER_ID"));
+    userDTO.setChatId(rs.getLong("STAT_USER_CHAT_ID"));
     userDTO.setUserName(rs.getString("STAT_USER_NAME"));
     userDTO.setAddedAt(rs.getTimestamp("STAT_USER_ADDED_AT").toLocalDateTime());
     userDTO.setAddedBy(rs.getString("STAT_USER_ADDED_BY"));
@@ -72,15 +73,18 @@ public class UserRepository {
         """
             INSERT INTO STAT_USERS(STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN,
             STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED) VALUES(?, ?, ?, ?, ?, ?)
+            INSERT INTO STAT_USERS(STAT_USERS_CHAT_ID, STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN,
+            STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED) VALUES(?, ?, ?, ?, ?, ?, ?)
 """;
 
     try (PreparedStatement ps = con.prepareStatement(sql)) {
       ps.setString(1, userDTO.getUserName());
-      ps.setTimestamp(2, Timestamp.valueOf(userDTO.getAddedAt()));
-      ps.setString(3, userDTO.getAddedBy());
-      ps.setBoolean(4, userDTO.isAdmin());
-      ps.setBoolean(5, userDTO.isHasReadAccess());
-      ps.setBoolean(6, userDTO.isSubscribed());
+      ps.setLong(2, userDTO.getChatId());
+      ps.setTimestamp(3, Timestamp.valueOf(userDTO.getAddedAt()));
+      ps.setString(4, userDTO.getAddedBy());
+      ps.setBoolean(5, userDTO.isAdmin());
+      ps.setBoolean(6, userDTO.isHasReadAccess());
+      ps.setBoolean(7, userDTO.isSubscribed());
       ps.executeUpdate();
     }
   }
@@ -100,18 +104,19 @@ public class UserRepository {
   public void update(Connection con, UserDTO userDTO) throws SQLException {
     String sql =
         """
-UPDATE STAT_USERS SET STAT_USER_NAME = ?, STAT_USER_ADDED_AT = ?, STAT_USER_ADDED_BY = ?, STAT_USER_IS_ADMIN = ?, STAT_USER_HAS_READ_ACCESS = ? ,
+UPDATE STAT_USERS SET STAT_USERS_CHAT_ID = ?, STAT_USER_NAME = ?, STAT_USER_ADDED_AT = ?, STAT_USER_ADDED_BY = ?, STAT_USER_IS_ADMIN = ?, STAT_USER_HAS_READ_ACCESS = ? ,
 STAT_USER_IS_SUBSCRIBED = ? WHERE STAT_USER_ID = ?
 """;
 
     try (PreparedStatement ps = con.prepareStatement(sql)) {
-      ps.setString(1, userDTO.getUserName());
-      ps.setTimestamp(2, Timestamp.valueOf(userDTO.getAddedAt()));
-      ps.setString(3, userDTO.getAddedBy());
-      ps.setBoolean(4, userDTO.isAdmin());
-      ps.setBoolean(5, userDTO.isHasReadAccess());
-      ps.setBoolean(6, userDTO.isSubscribed());
-      ps.setInt(7, userDTO.getUserId());
+      ps.setLong(1, userDTO.getChatId());
+      ps.setString(2, userDTO.getUserName());
+      ps.setTimestamp(3, Timestamp.valueOf(userDTO.getAddedAt()));
+      ps.setString(4, userDTO.getAddedBy());
+      ps.setBoolean(5, userDTO.isAdmin());
+      ps.setBoolean(6, userDTO.isHasReadAccess());
+      ps.setBoolean(7, userDTO.isSubscribed());
+      ps.setInt(8, userDTO.getUserId());
       ps.executeUpdate();
     }
   }

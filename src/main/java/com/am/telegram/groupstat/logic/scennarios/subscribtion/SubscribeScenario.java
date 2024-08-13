@@ -17,6 +17,7 @@ public class SubscribeScenario implements Scenario {
   @Override
   public void execute(long chatId) {
     new SubscriptionAssistant(assistant).subscribe();
+    assistant.getUserDTO().setChatId(chatId);
     userService.save(assistant.getUserDTO());
   }
 }
