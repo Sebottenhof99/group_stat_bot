@@ -67,8 +67,8 @@ public class ReportService {
       List<GroupStatistic> groupStatistics = statisticService.generateCurrentReport();
       Map<String, List<GroupStatistic>> groupStatisticsPerCategory =
           groupStatistics.stream().collect(groupingBy(GroupStatistic::category));
-      // TODO fix month
-      Sheet sheet = workbook.createSheet("juli");
+      Sheet sheet =
+          workbook.createSheet(LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM")));
       Row header = sheet.createRow(0);
       header.createCell(0).setCellValue("Город");
       header.createCell(1).setCellValue("Настоящее значение");
