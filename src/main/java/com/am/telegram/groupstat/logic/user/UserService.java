@@ -62,4 +62,12 @@ public class UserService {
       throw new RuntimeException(e);
     }
   }
+
+  public List<UserDTO> getSubscriber() {
+    try (Connection con = ds.getConnection()) {
+      return userRepository.findSubscribers(con);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

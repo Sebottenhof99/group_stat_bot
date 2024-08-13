@@ -71,8 +71,6 @@ public class UserRepository {
   public void persist(Connection con, UserDTO userDTO) throws SQLException {
     String sql =
         """
-            INSERT INTO STAT_USERS(STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN,
-            STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED) VALUES(?, ?, ?, ?, ?, ?)
             INSERT INTO STAT_USERS(STAT_USERS_CHAT_ID, STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN,
             STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED) VALUES(?, ?, ?, ?, ?, ?, ?)
 """;
@@ -118,6 +116,26 @@ STAT_USER_IS_SUBSCRIBED = ? WHERE STAT_USER_ID = ?
       ps.setBoolean(7, userDTO.isSubscribed());
       ps.setInt(8, userDTO.getUserId());
       ps.executeUpdate();
+    }
+  }
+
+  public List<UserDTO> findSubscribers(Connection con) {
+    String sql =
+        """
+                    SELECT STAT_USER_ID, STAT_USERS_CHAT_ID, STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN, STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED
+                    FROM STAT_USERS
+                    WHERE STAT_USER_IS_SUBSCRIBED = true
+                    """;
+    List<UserDTO> subscribers = new ArrayList<>();
+    try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+        ResultSet rs = preparedStatement.executeQuery()) {
+
+      while (rs.next()) {
+        subscribers.add(mapToDTO(rs));
+      }
+      return subscribers;
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
   }
 }
