@@ -1,11 +1,11 @@
 package com.am.telegram.groupstat;
 
-import static com.am.telegram.groupstat.user.operations.Operations.CANCEL;
+import static com.am.telegram.groupstat.logic.operations.Operations.CANCEL;
 
-import com.am.telegram.groupstat.user.assistant.Assistant;
-import com.am.telegram.groupstat.user.assistant.AssistantService;
-import com.am.telegram.groupstat.user.operations.Operations;
-import com.am.telegram.groupstat.user.scennarios.ScenarioFactory;
+import com.am.telegram.groupstat.logic.assistant.Assistant;
+import com.am.telegram.groupstat.logic.assistant.AssistantService;
+import com.am.telegram.groupstat.logic.operations.Operations;
+import com.am.telegram.groupstat.logic.scennarios.ScenarioFactory;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;

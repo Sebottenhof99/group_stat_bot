@@ -1,6 +1,6 @@
 package com.am.telegram.groupstat;
 
-import com.am.telegram.groupstat.user.report.ReportService;
+import com.am.telegram.groupstat.logic.report.ReportService;
 import com.pengrad.telegrambot.TelegramBot;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;

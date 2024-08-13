@@ -1,14 +1,14 @@
 package com.am.telegram.groupstat;
 
-import com.am.telegram.groupstat.user.assistant.AssistantRepository;
-import com.am.telegram.groupstat.user.assistant.AssistantService;
-import com.am.telegram.groupstat.user.group.GroupManagementRepository;
-import com.am.telegram.groupstat.user.group.GroupManagementService;
-import com.am.telegram.groupstat.user.report.ReportConfig;
-import com.am.telegram.groupstat.user.report.ReportService;
-import com.am.telegram.groupstat.user.scennarios.ScenarioFactory;
-import com.am.telegram.groupstat.user.user.UserRepository;
-import com.am.telegram.groupstat.user.user.UserService;
+import com.am.telegram.groupstat.logic.assistant.AssistantRepository;
+import com.am.telegram.groupstat.logic.assistant.AssistantService;
+import com.am.telegram.groupstat.logic.group.GroupManagementRepository;
+import com.am.telegram.groupstat.logic.group.GroupManagementService;
+import com.am.telegram.groupstat.logic.report.ReportConfig;
+import com.am.telegram.groupstat.logic.report.ReportService;
+import com.am.telegram.groupstat.logic.scennarios.ScenarioFactory;
+import com.am.telegram.groupstat.logic.user.UserRepository;
+import com.am.telegram.groupstat.logic.user.UserService;
 import com.pengrad.telegrambot.TelegramBot;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
