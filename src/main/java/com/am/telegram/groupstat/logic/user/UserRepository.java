@@ -58,7 +58,7 @@ public class UserRepository {
   private UserDTO mapToDTO(ResultSet rs) throws SQLException {
     UserDTO userDTO = new UserDTO();
     userDTO.setUserId(rs.getInt("STAT_USER_ID"));
-    userDTO.setChatId(rs.getLong("STAT_USER_CHAT_ID"));
+    userDTO.setChatId(rs.getLong("STAT_USERS_CHAT_ID"));
     userDTO.setUserName(rs.getString("STAT_USER_NAME"));
     userDTO.setAddedAt(rs.getTimestamp("STAT_USER_ADDED_AT").toLocalDateTime());
     userDTO.setAddedBy(rs.getString("STAT_USER_ADDED_BY"));
@@ -71,9 +71,9 @@ public class UserRepository {
   public void persist(Connection con, UserDTO userDTO) throws SQLException {
     String sql =
         """
-            INSERT INTO STAT_USERS(STAT_USERS_CHAT_ID, STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN,
-            STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED) VALUES(?, ?, ?, ?, ?, ?, ?)
-""";
+                    INSERT INTO STAT_USERS(STAT_USERS_CHAT_ID, STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN,
+                    STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED) VALUES(?, ?, ?, ?, ?, ?, ?)
+                """;
 
     try (PreparedStatement ps = con.prepareStatement(sql)) {
       ps.setString(1, userDTO.getUserName());
@@ -88,11 +88,7 @@ public class UserRepository {
   }
 
   public void removeByUserId(Connection con, int userId) throws SQLException {
-    String sql =
-        """
-                DELETE FROM STAT_USERS WHERE STAT_USER_ID = ?
-    """;
-
+    String sql = "DELETE FROM STAT_USERS WHERE STAT_USER_ID = ?";
     try (PreparedStatement ps = con.prepareStatement(sql)) {
       ps.setInt(1, userId);
       ps.executeUpdate();
@@ -102,9 +98,9 @@ public class UserRepository {
   public void update(Connection con, UserDTO userDTO) throws SQLException {
     String sql =
         """
-UPDATE STAT_USERS SET STAT_USERS_CHAT_ID = ?, STAT_USER_NAME = ?, STAT_USER_ADDED_AT = ?, STAT_USER_ADDED_BY = ?, STAT_USER_IS_ADMIN = ?, STAT_USER_HAS_READ_ACCESS = ? ,
-STAT_USER_IS_SUBSCRIBED = ? WHERE STAT_USER_ID = ?
-""";
+                UPDATE STAT_USERS SET STAT_USERS_CHAT_ID = ?, STAT_USER_NAME = ?, STAT_USER_ADDED_AT = ?, STAT_USER_ADDED_BY = ?, STAT_USER_IS_ADMIN = ?, STAT_USER_HAS_READ_ACCESS = ? ,
+                STAT_USER_IS_SUBSCRIBED = ? WHERE STAT_USER_ID = ?
+                        """;
 
     try (PreparedStatement ps = con.prepareStatement(sql)) {
       ps.setLong(1, userDTO.getChatId());
