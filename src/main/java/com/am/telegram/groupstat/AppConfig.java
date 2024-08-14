@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
@@ -65,8 +66,8 @@ public class AppConfig {
   }
 
   @Bean(destroyMethod = "shutdown")
-  public TelegramBot telegramBot() {
-    return new TelegramBot("7222624015:AAGzaO-4U6dVAh4fat3FOmkx7RQmEhZg4AQ");
+  public TelegramBot telegramBot(Environment env) {
+    return new TelegramBot(env.getRequiredProperty("telegram.bot.token"));
   }
 
   @Bean
