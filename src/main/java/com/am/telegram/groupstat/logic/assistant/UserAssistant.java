@@ -1,16 +1,15 @@
 package com.am.telegram.groupstat.logic.assistant;
 
-import com.am.telegram.groupstat.logic.UserManagementPanel;
 import com.am.telegram.groupstat.logic.operations.Operations;
 import com.am.telegram.groupstat.logic.user.UserDTO;
 import com.am.telegram.groupstat.logic.user.UserService;
 import java.util.Optional;
+import org.apache.catalina.User;
 
 public class UserAssistant {
 
   private final Assistant assistant;
   private final UserService userService;
-  private final UserManagementPanel userManagementPanel = new UserManagementPanel();
 
   public UserAssistant(Assistant assistant, UserService userService) {
     this.assistant = assistant;
@@ -47,12 +46,12 @@ public class UserAssistant {
   public Optional<UserDTO> addAdmin() {
     return addUser(
         Operations.ADD_ADMIN,
-        userManagementPanel.createAdmin(assistant.getUserDTO().getUserName()));
+        UserDTO.createAdmin(assistant.getUserDTO().getUserName()));
   }
 
   public Optional<UserDTO> addRegularUser() {
     return addUser(
-        Operations.ADD_USER, userManagementPanel.createUser(assistant.getUserDTO().getUserName()));
+        Operations.ADD_USER, UserDTO.createUser(assistant.getUserDTO().getUserName()));
   }
 
   public Optional<UserDTO> addUser(Operations operation, UserDTO user) {
