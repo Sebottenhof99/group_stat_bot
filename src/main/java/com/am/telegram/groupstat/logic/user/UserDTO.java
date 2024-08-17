@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class UserDTO {
   private int userId;
-  private Long chatId;
+  private long chatId;
   private String userName;
   private boolean isAdmin;
   private boolean hasReadAccess;
@@ -20,11 +20,11 @@ public class UserDTO {
     this.userId = userId;
   }
 
-  public Long getChatId() {
+  public long getChatId() {
     return chatId;
   }
 
-  public void setChatId(Long chatId) {
+  public void setChatId(long chatId) {
     this.chatId = chatId;
   }
 
