@@ -71,7 +71,7 @@ public class UserRepository {
   public void persist(Connection con, UserDTO userDTO) throws SQLException {
     String sql =
         """
-                    INSERT INTO STAT_USERS(STAT_USERS_CHAT_ID, STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN,
+                    INSERT INTO STAT_USERS(STAT_USER_NAME, STAT_USERS_CHAT_ID, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN,
                     STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED) VALUES(?, ?, ?, ?, ?, ?, ?)
                 """;
 
