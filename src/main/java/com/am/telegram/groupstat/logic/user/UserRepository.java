@@ -77,7 +77,11 @@ public class UserRepository {
 
     try (PreparedStatement ps = con.prepareStatement(sql)) {
       ps.setString(1, userDTO.getUserName());
-      ps.setLong(2, userDTO.getChatId());
+      if (userDTO.getChatId() == 0) {
+        ps.setNull(2, Types.BIGINT);
+      } else {
+        ps.setLong(2, userDTO.getChatId());
+      }
       ps.setTimestamp(3, Timestamp.valueOf(userDTO.getAddedAt()));
       ps.setString(4, userDTO.getAddedBy());
       ps.setBoolean(5, userDTO.isAdmin());
