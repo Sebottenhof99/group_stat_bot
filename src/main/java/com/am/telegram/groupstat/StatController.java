@@ -13,7 +13,6 @@ import com.pengrad.telegrambot.request.SendMessage;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,11 +25,14 @@ public class StatController implements UpdatesListener {
   private final ExecutorService executor;
 
   public StatController(
-      TelegramBot bot, AssistantService assistantService, ScenarioFactory scenarioFactory) {
+      TelegramBot bot,
+      AssistantService assistantService,
+      ScenarioFactory scenarioFactory,
+      ExecutorService executor) {
     this.bot = bot;
     this.assistantService = assistantService;
     this.scenarioFactory = scenarioFactory;
-    this.executor = Executors.newFixedThreadPool(6);
+    this.executor = executor;
   }
 
   @Override

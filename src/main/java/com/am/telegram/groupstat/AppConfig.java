@@ -10,6 +10,8 @@ import com.am.telegram.groupstat.logic.scennarios.ScenarioFactory;
 import com.am.telegram.groupstat.logic.user.UserRepository;
 import com.am.telegram.groupstat.logic.user.UserService;
 import com.pengrad.telegrambot.TelegramBot;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -68,10 +70,18 @@ public class AppConfig {
     return new TelegramBot(env.getRequiredProperty("telegram.bot.token"));
   }
 
-  @Bean
+  @Bean(destroyMethod = "shutdown")
+  public ExecutorService executorService() {
+    return Executors.newFixedThreadPool(6);
+  }
+
+  @Bean()
   public StatController statController(
-      TelegramBot bot, AssistantService assistantService, ScenarioFactory scenarioFactory) {
-    return new StatController(bot, assistantService, scenarioFactory);
+      TelegramBot bot,
+      AssistantService assistantService,
+      ScenarioFactory scenarioFactory,
+      ExecutorService executorService) {
+    return new StatController(bot, assistantService, scenarioFactory, executorService);
   }
 
   @Bean

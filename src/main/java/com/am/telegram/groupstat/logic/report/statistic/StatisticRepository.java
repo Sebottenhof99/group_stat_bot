@@ -27,9 +27,9 @@ public class StatisticRepository {
   private final TelegramBot bot;
   private final ScheduledExecutorService executor;
 
-  public StatisticRepository(TelegramBot bot) {
+  public StatisticRepository(TelegramBot bot, ScheduledExecutorService executor) {
     this.bot = bot;
-    executor = Executors.newSingleThreadScheduledExecutor();
+    this.executor = executor;
   }
 
   public Map<String, GroupMonthStatisticDTO> findStatisticsForDate(
