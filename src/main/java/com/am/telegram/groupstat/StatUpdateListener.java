@@ -31,7 +31,7 @@ public class StatUpdateListener implements UpdatesListener {
 
   @Override
   public int process(List<Update> updates) {
-
+    //TODO prepare thread pool
     for (Update update : updates) {
       Thread thread = new Thread(() -> processUpdate(update));
       thread.start();
@@ -40,6 +40,7 @@ public class StatUpdateListener implements UpdatesListener {
   }
 
   private void processUpdate(Update update) {
+    log.info("Incoming update from chat {}", update.message().chat().id());
     Optional<Assistant> assistant =
         assistantService.assistantOf(update.message().chat().username());
     if (assistant.isEmpty()) {
