@@ -10,10 +10,10 @@ public class AssistantRepository {
   public AssistantDTO findByUserId(Connection con, int userId) throws SQLException {
     String sql =
         """
-                    SELECT USER_ASSISTANT_ACTIVE_OPERATION, USER_ASSISTANT_LAST_GIVEN_ANSWER
-                    FROM USER_ASSISTANT
-                    WHERE USER_ASSISTANT_USER_ID = ?
-                    """;
+            SELECT USER_ASSISTANT_ACTIVE_OPERATION, USER_ASSISTANT_LAST_GIVEN_ANSWER
+            FROM USER_ASSISTANT
+            WHERE USER_ASSISTANT_USER_ID = ?
+            """;
     try (PreparedStatement ps = con.prepareStatement(sql)) {
       ps.setInt(1, userId);
       try (ResultSet rs = ps.executeQuery()) {
@@ -31,10 +31,10 @@ public class AssistantRepository {
   public void update(Connection con, AssistantDTO assistantDTO, int userId) throws SQLException {
     String update =
         """
-    UPDATE USER_ASSISTANT
-    SET USER_ASSISTANT_ACTIVE_OPERATION = ?, USER_ASSISTANT_LAST_GIVEN_ANSWER = ?
-    WHERE USER_ASSISTANT_USER_ID = ?
-""";
+            UPDATE USER_ASSISTANT
+            SET USER_ASSISTANT_ACTIVE_OPERATION = ?, USER_ASSISTANT_LAST_GIVEN_ANSWER = ?
+            WHERE USER_ASSISTANT_USER_ID = ?
+            """;
 
     try (PreparedStatement ps = con.prepareStatement(update)) {
       ps.setString(1, assistantDTO.getActiveOperation());
@@ -60,7 +60,8 @@ public class AssistantRepository {
   public void persist(Connection con, AssistantDTO assistantDTO, int userId) throws SQLException {
     String insertAssistant =
         """
-                INSERT INTO USER_ASSISTANT(USER_ASSISTANT_USER_ID, USER_ASSISTANT_ACTIVE_OPERATION, USER_ASSISTANT_LAST_GIVEN_ANSWER) VALUES(?, ?, ?)
+                INSERT INTO USER_ASSISTANT(USER_ASSISTANT_USER_ID, USER_ASSISTANT_ACTIVE_OPERATION, USER_ASSISTANT_LAST_GIVEN_ANSWER)
+                VALUES(?, ?, ?)
                 """;
     try (PreparedStatement ps = con.prepareStatement(insertAssistant)) {
       ps.setInt(1, userId);
