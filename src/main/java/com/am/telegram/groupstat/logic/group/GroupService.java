@@ -46,7 +46,6 @@ public class GroupService {
   }
 
   public void save(GroupDTO groupDTO) {
-
     try (Connection con = ds.getConnection()) {
       if (groupDTO.getGroupId() > 0) {
         groupRepository.update(con, groupDTO);
