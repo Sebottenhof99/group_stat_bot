@@ -5,8 +5,12 @@ import com.am.telegram.groupstat.logic.report.ReportService;
 import com.am.telegram.groupstat.logic.report.concurrency.ReportSubscriber;
 import com.am.telegram.groupstat.logic.scennarios.Scenario;
 import com.pengrad.telegrambot.TelegramBot;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GenerateReportScenario implements Scenario {
+
+  private static final Logger log = LoggerFactory.getLogger(GenerateReportScenario.class);
 
   private final Assistant assistant;
   private final TelegramBot bot;
@@ -21,7 +25,7 @@ public class GenerateReportScenario implements Scenario {
   @Override
   public void execute(long chatId) {
     try {
-      System.out.println("try to get report");
+      log.info("Trying to get report");
       reportService.subscribe(new ReportSubscriber(chatId, bot));
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();

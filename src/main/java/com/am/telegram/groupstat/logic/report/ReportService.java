@@ -21,9 +21,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ReportService {
 
+  private static final Logger log = LoggerFactory.getLogger(ReportService.class);
   private AtomicBoolean isReportBeingGenerated = new AtomicBoolean(false);
   private List<ReportSubscriber> reportSubscribers =
       Collections.synchronizedList(new ArrayList<>());
@@ -38,11 +41,10 @@ public class ReportService {
     if (reportSubscribers.contains(reportSubscriber)) {
       return;
     }
-
-    System.out.println("subscriber is regestred");
+    log.info("Registration subscriber");
     reportSubscribers.add(reportSubscriber);
     if (isReportAlreadyGenerated()) {
-      System.out.println("Report is already subscribed");
+      log.info("Report is already subscribed");
       notifySubscribers();
     } else if (!isReportBeingGenerated.get()) {
       Thread thread = new Thread(this::generateReport);
@@ -51,7 +53,7 @@ public class ReportService {
   }
 
   private void notifySubscribers() {
-    System.out.println("Notify users");
+    log.info("Notifying subscribers");
     File report = new File(currentReportName());
     for (ReportSubscriber subscriber : reportSubscribers) {
       subscriber.update(report);
@@ -61,7 +63,7 @@ public class ReportService {
 
   private void generateReport() {
     isReportBeingGenerated.set(true);
-    System.out.println("Generate report");
+    log.info("Generating report");
 
     try (Workbook workbook = new XSSFWorkbook()) {
       List<GroupStatistic> groupStatistics = statisticService.generateCurrentReport();
