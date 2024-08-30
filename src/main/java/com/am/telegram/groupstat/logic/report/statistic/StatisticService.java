@@ -9,6 +9,7 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import javax.sql.DataSource;
 
 public class StatisticService {
@@ -31,7 +32,7 @@ public class StatisticService {
           groupDTOs, previousMonthStatistics(connection), currentStatistics(connection, groupDTOs));
     } catch (SQLException e) {
       throw new StatisticsException("Could not generate current report due to sql issue", e);
-    } catch (InterruptedException e) {
+    } catch (InterruptedException | ExecutionException e) {
       Thread.currentThread().interrupt();
       throw new StatisticsException("Could not generate report due to thread issue", e);
     }
@@ -60,7 +61,8 @@ public class StatisticService {
   }
 
   private Map<String, GroupMonthStatisticDTO> currentStatistics(
-      Connection connection, List<GroupDTO> groupDTOs) throws SQLException, InterruptedException {
+      Connection connection, List<GroupDTO> groupDTOs)
+      throws SQLException, ExecutionException, InterruptedException {
     Map<String, GroupMonthStatisticDTO> currentStatistics;
     if (statisticRepository.existMeasurementsForDate(LocalDate.now(), connection)) {
       currentStatistics = statisticRepository.findStatisticsForDate(LocalDate.now(), connection);
