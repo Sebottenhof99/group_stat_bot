@@ -33,17 +33,10 @@ public class ReportSender {
     }
 
     List<UserDTO> subscribers = userService.getSubscriber();
-    log.info("Generate report for {} subscribers due to the last day of the month",
-        subscribers.size());
+    log.info(
+        "Generate report for {} subscribers due to the last day of the month", subscribers.size());
     subscribers.forEach(
-        subscriber -> {
-          try {
-            reportService.subscribe(new ReportSubscriber(subscriber.getChatId(), bot));
-          } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new RuntimeException(e);
-          }
-        });
+        subscriber -> reportService.subscribe(new ReportSubscriber(subscriber.getChatId(), bot)));
   }
 
   private boolean isLastDayOfMonth() {
