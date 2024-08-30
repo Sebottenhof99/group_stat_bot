@@ -77,8 +77,7 @@ public class GroupRepository {
     try (PreparedStatement preparedStatement = connection.prepareStatement(query);
         ResultSet rs = preparedStatement.executeQuery()) {
       while (rs.next()) {
-        GroupDTO groupDTO = mapToDTO(rs);
-        groupDTOs.add(groupDTO);
+        groupDTOs.add(mapToDTO(rs));
       }
     }
 
