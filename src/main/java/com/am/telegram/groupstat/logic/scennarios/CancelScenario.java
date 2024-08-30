@@ -1,8 +1,8 @@
 package com.am.telegram.groupstat.logic.scennarios;
 
+import com.am.telegram.groupstat.logic.Operations;
 import com.am.telegram.groupstat.logic.assistant.Assistant;
 import com.am.telegram.groupstat.logic.assistant.AssistantService;
-import com.am.telegram.groupstat.logic.operations.Operations;
 
 public class CancelScenario implements Scenario {
 

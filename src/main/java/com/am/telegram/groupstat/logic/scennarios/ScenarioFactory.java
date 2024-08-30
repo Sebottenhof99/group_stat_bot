@@ -1,9 +1,9 @@
 package com.am.telegram.groupstat.logic.scennarios;
 
+import com.am.telegram.groupstat.logic.Operations;
 import com.am.telegram.groupstat.logic.assistant.Assistant;
 import com.am.telegram.groupstat.logic.assistant.AssistantService;
 import com.am.telegram.groupstat.logic.group.GroupService;
-import com.am.telegram.groupstat.logic.operations.Operations;
 import com.am.telegram.groupstat.logic.report.ReportService;
 import com.am.telegram.groupstat.logic.scennarios.group.AddNewGroupScenario;
 import com.am.telegram.groupstat.logic.scennarios.group.ListGroupsScenario;

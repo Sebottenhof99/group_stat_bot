@@ -1,8 +1,8 @@
 package com.am.telegram.groupstat.logic.assistant;
 
-import static com.am.telegram.groupstat.logic.operations.Operations.*;
+import static com.am.telegram.groupstat.logic.Operations.*;
 
-import com.am.telegram.groupstat.logic.operations.Operations;
+import com.am.telegram.groupstat.logic.Operations;
 import com.am.telegram.groupstat.logic.user.UserDTO;
 import com.pengrad.telegrambot.model.request.Keyboard;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;

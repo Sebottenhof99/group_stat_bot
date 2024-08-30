@@ -1,10 +1,9 @@
 package com.am.telegram.groupstat.logic.assistant;
 
-import com.am.telegram.groupstat.logic.operations.Operations;
+import com.am.telegram.groupstat.logic.Operations;
 import com.am.telegram.groupstat.logic.user.UserDTO;
 import com.am.telegram.groupstat.logic.user.UserService;
 import java.util.Optional;
-import org.apache.catalina.User;
 
 public class UserAssistant {
 

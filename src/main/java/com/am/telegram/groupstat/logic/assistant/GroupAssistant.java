@@ -1,7 +1,7 @@
 package com.am.telegram.groupstat.logic.assistant;
 
+import com.am.telegram.groupstat.logic.Operations;
 import com.am.telegram.groupstat.logic.group.GroupDTO;
-import com.am.telegram.groupstat.logic.operations.Operations;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.request.GetChatMemberCount;
 import com.pengrad.telegrambot.response.BaseResponse;

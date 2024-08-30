@@ -1,4 +1,4 @@
-package com.am.telegram.groupstat.logic.operations;
+package com.am.telegram.groupstat.logic;
 
 public enum Operations {
   EMPTY,
