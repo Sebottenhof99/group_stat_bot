@@ -37,7 +37,7 @@ public class ReportService {
     this.statisticService = statisticService;
   }
 
-  public void subscribe(ReportSubscriber reportSubscriber) throws InterruptedException {
+  public void subscribe(ReportSubscriber reportSubscriber) {
     if (reportSubscribers.contains(reportSubscriber)) {
       return;
     }
