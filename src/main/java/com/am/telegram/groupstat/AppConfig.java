@@ -69,7 +69,7 @@ public class AppConfig {
   }
 
   @Bean
-  public StatController statUpdateListener(
+  public StatController statController(
       TelegramBot bot, AssistantService assistantService, ScenarioFactory scenarioFactory) {
     return new StatController(bot, assistantService, scenarioFactory);
   }
