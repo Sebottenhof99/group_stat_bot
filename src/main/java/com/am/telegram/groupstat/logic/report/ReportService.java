@@ -96,9 +96,7 @@ public class ReportService {
   }
 
   private boolean isReportAlreadyGenerated() {
-    var reportName =
-        LocalDate.now().format(DateTimeFormatter.ofPattern("ddMMyyyy")) + "-report.xlsx";
-    return Files.exists(Path.of(reportName));
+    return Files.exists(Path.of(currentReportName()));
   }
 
   private void save(Workbook workbook) {
