@@ -55,10 +55,7 @@ public class ReportService {
   private void notifySubscribers() {
     log.info("Notifying subscribers");
     File report = new File(currentReportName());
-    for (ReportSubscriber subscriber : reportSubscribers) {
-      subscriber.update(report);
-    }
-
+    reportSubscribers.forEach(s -> s.update(report));
     reportSubscribers.clear();
   }
 
