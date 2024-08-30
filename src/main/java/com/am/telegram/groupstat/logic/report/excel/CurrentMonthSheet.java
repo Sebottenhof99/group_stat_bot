@@ -27,7 +27,7 @@ public class CurrentMonthSheet {
     addData(basicGroupStatistics);
   }
 
-  public void addData(List<GroupStatistic> groupStatistics) {
+  private void addData(List<GroupStatistic> groupStatistics) {
     groupStatistics.forEach(
         groupStatistic -> groupStatistic.writeInRow(sheet.createRow(rowIndex++)));
   }
