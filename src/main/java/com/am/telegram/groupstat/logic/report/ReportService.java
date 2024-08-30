@@ -44,7 +44,7 @@ public class ReportService {
     log.info("Registration subscriber");
     reportSubscribers.add(reportSubscriber);
     if (isReportAlreadyGenerated()) {
-      log.info("Report is already subscribed");
+      log.info("Report is already generated. Sending it to subscribers");
       notifySubscribers();
     } else if (!isReportBeingGenerated.get()) {
       Thread thread = new Thread(this::generateReport);
