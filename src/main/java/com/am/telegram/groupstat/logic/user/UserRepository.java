@@ -13,7 +13,8 @@ import java.util.Optional;
 public class UserRepository {
 
   public List<UserDTO> findRegularUsers(Connection connection) throws SQLException {
-    String sql = """
+    String sql =
+        """
         SELECT STAT_USER_ID, STAT_USERS_CHAT_ID, STAT_USER_NAME, STAT_USER_ADDED_AT
         STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN, STAT_USER_HAS_READ_ACCESS
         STAT_USER_IS_SUBSCRIBED FROM STAT_USERS WHERE STAT_USER_HAS_READ_ACCESS = true AND
@@ -23,7 +24,8 @@ public class UserRepository {
   }
 
   public List<UserDTO> findAdmins(Connection connection) throws SQLException {
-    String sql = """
+    String sql =
+        """
         SELECT STAT_USER_ID, STAT_USERS_CHAT_ID, STAT_USER_NAME, STAT_USER_ADDED_AT,
         STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN, STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED
         FROM STAT_USERS WHERE STAT_USER_IS_ADMIN = true ORDER BY STAT_USER_NAME DESC
@@ -32,10 +34,11 @@ public class UserRepository {
   }
 
   public Optional<UserDTO> findUserByName(Connection con, String userName) throws SQLException {
-    String sql = """
-        SELECT STAT_USER_ID, STAT_USERS_CHAT_ID, STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, 
+    String sql =
+        """
+        SELECT STAT_USER_ID, STAT_USERS_CHAT_ID, STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY,
         STAT_USER_IS_ADMIN, STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED
-        FROM STAT_USERS 
+        FROM STAT_USERS
         WHERE STAT_USER_NAME = ?
         """;
     try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
@@ -50,9 +53,10 @@ public class UserRepository {
   }
 
   public void persist(Connection con, UserDTO userDTO) throws SQLException {
-    String sql = """
+    String sql =
+        """
         INSERT INTO STAT_USERS(STAT_USER_NAME, STAT_USERS_CHAT_ID, STAT_USER_ADDED_AT,
-        STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN, STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED) 
+        STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN, STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED)
         VALUES(?, ?, ?, ?, ?, ?, ?)
         """;
 
@@ -81,8 +85,9 @@ public class UserRepository {
   }
 
   public void update(Connection con, UserDTO userDTO) throws SQLException {
-    String sql = """
-        UPDATE STAT_USERS SET STAT_USERS_CHAT_ID = ?, STAT_USER_NAME = ?, STAT_USER_ADDED_AT = ?, 
+    String sql =
+        """
+        UPDATE STAT_USERS SET STAT_USERS_CHAT_ID = ?, STAT_USER_NAME = ?, STAT_USER_ADDED_AT = ?,
         STAT_USER_ADDED_BY = ?, STAT_USER_IS_ADMIN = ?, STAT_USER_HAS_READ_ACCESS = ?,
         STAT_USER_IS_SUBSCRIBED = ?
         WHERE STAT_USER_ID = ?
@@ -102,14 +107,15 @@ public class UserRepository {
   }
 
   public List<UserDTO> findSubscribers(Connection con) {
-    String sql = """
+    String sql =
+        """
         SELECT STAT_USER_ID, STAT_USERS_CHAT_ID, STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY,
-        STAT_USER_IS_ADMIN, STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED 
+        STAT_USER_IS_ADMIN, STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED
         FROM STAT_USERS
         WHERE STAT_USER_IS_SUBSCRIBED = true
         """;
     try (PreparedStatement preparedStatement = con.prepareStatement(sql);
-         ResultSet rs = preparedStatement.executeQuery()) {
+        ResultSet rs = preparedStatement.executeQuery()) {
 
       List<UserDTO> subscribers = new ArrayList<>();
       while (rs.next()) {
@@ -123,7 +129,7 @@ public class UserRepository {
 
   private List<UserDTO> requestUsers(Connection connection, String sql) throws SQLException {
     try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
-         ResultSet rs = preparedStatement.executeQuery()) {
+        ResultSet rs = preparedStatement.executeQuery()) {
       List<UserDTO> users = new ArrayList<>();
       while (rs.next()) {
         UserDTO userDTO = mapToDTO(rs);
