@@ -3,7 +3,6 @@ package com.am.telegram.groupstat.logic.group;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class GroupRepository {
 
@@ -21,21 +20,6 @@ public class GroupRepository {
         groups.add(group);
       }
       return groups;
-    }
-  }
-
-  public Optional<GroupDTO> findGroupById(Connection con, int groupId) throws SQLException {
-    String sql =
-        "SELECT GROUP_ID,GROUP_INTERNAL_NAME, GROUP_CITY, GROUP_CATEGORY, GROUP_ADDED_AT, GROUP_ADDED_BY FROM GROUPS WHERE GROUP_ID = ?";
-
-    try (PreparedStatement ps = con.prepareStatement(sql)) {
-      ps.setInt(1, groupId);
-      try (ResultSet rs = ps.executeQuery()) {
-        if (rs.next()) {
-          return Optional.of(mapToDTO(rs));
-        }
-        return Optional.empty();
-      }
     }
   }
 
