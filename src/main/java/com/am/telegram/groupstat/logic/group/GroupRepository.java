@@ -11,7 +11,7 @@ public class GroupRepository {
     List<GroupDTO> groups = new ArrayList<>();
     try (PreparedStatement ps =
             con.prepareStatement(
-                "SELECT GROUP_ID, GROUP_CITY, GROUP_CATEGORY FROM GROUPS ORDER BY group_id ASC");
+                "SELECT GROUP_ID, GROUP_CITY, GROUP_CATEGORY FROM GROUPS ORDER BY group_id");
         ResultSet rs = ps.executeQuery()) {
       while (rs.next()) {
         GroupDTO group = new GroupDTO();
