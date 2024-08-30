@@ -76,8 +76,8 @@ public class StatisticRepository {
     }
   }
 
-  public void persistMeasurements(
-      Collection<GroupMonthStatisticDTO> values, Connection connection) {
+  public void persistMeasurements(Collection<GroupMonthStatisticDTO> values, Connection connection)
+      throws SQLException {
     String sql =
         "INSERT INTO GROUP_MONTH_STATISTIC ( STATISTIC_GROUP_ID, STATISTIC_MEASURED_AT, STATISTIC_MEMBER_COUNT ) VALUES (?, ?, ?) ";
     try (PreparedStatement insertStatistic = connection.prepareStatement(sql)) {
@@ -88,8 +88,6 @@ public class StatisticRepository {
         insertStatistic.addBatch();
       }
       insertStatistic.executeBatch();
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
     }
   }
 }
