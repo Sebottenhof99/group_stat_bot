@@ -10,6 +10,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,10 +26,13 @@ public class StatisticRepository {
       FROM GROUP_MONTH_STATISTIC JOIN GROUPS on GROUP_MONTH_STATISTIC.STATISTIC_GROUP_ID = GROUPS.GROUP_ID
       WHERE STATISTIC_MEASURED_AT = ?
       """;
+  public static final int TELEGRAM_REQUEST_PER_SEC_LIMIT = 2;
   private final TelegramBot bot;
+  private final ScheduledExecutorService executor;
 
   public StatisticRepository(TelegramBot bot) {
     this.bot = bot;
+    executor = Executors.newSingleThreadScheduledExecutor();
   }
 
   public Map<String, GroupMonthStatisticDTO> findStatisticsForDate(
@@ -49,20 +56,23 @@ public class StatisticRepository {
     return groupMonthStatisticDTOMap;
   }
 
-  public Map<String, GroupMonthStatisticDTO> measureCurrentCountOfUsers(List<GroupDTO> groupDTOs)
-      throws InterruptedException {
-    Map<String, GroupMonthStatisticDTO> currentStatistics = new HashMap<>();
+  public Map<String, GroupMonthStatisticDTO> measureCurrentCountOfUsers(List<GroupDTO> groupDTOs) {
+    Map<String, GroupMonthStatisticDTO> currentStatistics = new ConcurrentHashMap<>();
     log.info("Querying current user numbers from groups");
     for (GroupDTO groupDTO : groupDTOs) {
-      log.info("Sending query for group {}", groupDTO.getGroupName());
-      GetChatMemberCountResponse response =
-          bot.execute(new GetChatMemberCount(groupDTO.getGroupName()));
-      GroupMonthStatisticDTO groupMonthStatisticDTO = new GroupMonthStatisticDTO();
-      groupMonthStatisticDTO.setGroupId(groupDTO.getGroupId());
-      groupMonthStatisticDTO.setMeasuredAt(LocalDate.now());
-      groupMonthStatisticDTO.setMemberCount(response.count());
-      currentStatistics.put(groupDTO.getGroupName(), groupMonthStatisticDTO);
-      Thread.sleep(2000);
+      executor.schedule(
+          () -> {
+            log.info("Sending query for group {}", groupDTO.getGroupName());
+            GetChatMemberCountResponse response =
+                bot.execute(new GetChatMemberCount(groupDTO.getGroupName()));
+            GroupMonthStatisticDTO groupMonthStatisticDTO = new GroupMonthStatisticDTO();
+            groupMonthStatisticDTO.setGroupId(groupDTO.getGroupId());
+            groupMonthStatisticDTO.setMeasuredAt(LocalDate.now());
+            groupMonthStatisticDTO.setMemberCount(response.count());
+            currentStatistics.put(groupDTO.getGroupName(), groupMonthStatisticDTO);
+          },
+              TELEGRAM_REQUEST_PER_SEC_LIMIT,
+          TimeUnit.SECONDS);
     }
     return currentStatistics;
   }
