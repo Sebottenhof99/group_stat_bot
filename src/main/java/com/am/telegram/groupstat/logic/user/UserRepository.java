@@ -107,7 +107,7 @@ public class UserRepository {
     }
   }
 
-  public List<UserDTO> findSubscribers(Connection con) {
+  public List<UserDTO> findSubscribers(Connection con) throws SQLException {
     String sql =
         """
         SELECT STAT_USER_ID, STAT_USERS_CHAT_ID, STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY,
@@ -123,8 +123,6 @@ public class UserRepository {
         subscribers.add(mapToDTO(rs));
       }
       return subscribers;
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
     }
   }
 
