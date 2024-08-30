@@ -26,8 +26,8 @@ public class GroupRepository {
   public void update(Connection con, GroupDTO groupDTO) throws SQLException {
     String sql =
         """
-    UPDATE GROUPS SET GROUP_INTERNAL_NAME = ?, GROUP_CITY = ?, GROUP_CATEGORY = ? WHERE GROUP_ID = ?;
-""";
+        UPDATE GROUPS SET GROUP_INTERNAL_NAME = ?, GROUP_CITY = ?, GROUP_CATEGORY = ? WHERE GROUP_ID = ?;
+        """;
     try (PreparedStatement ps = con.prepareStatement(sql)) {
       ps.setString(1, groupDTO.getGroupName());
       ps.setString(2, groupDTO.getGroupCity());
@@ -40,9 +40,9 @@ public class GroupRepository {
   public void persist(Connection con, GroupDTO groupDTO) throws SQLException {
     String sql =
         """
-            INSERT INTO GROUPS(GROUP_INTERNAL_NAME, GROUP_CITY, GROUP_CATEGORY, GROUP_ADDED_AT, GROUP_ADDED_BY)
-            VALUES (?, ?, ?, ?, ?);
-          """;
+        INSERT INTO GROUPS(GROUP_INTERNAL_NAME, GROUP_CITY, GROUP_CATEGORY, GROUP_ADDED_AT, GROUP_ADDED_BY)
+        VALUES (?, ?, ?, ?, ?);
+        """;
 
     try (PreparedStatement ps = con.prepareStatement(sql)) {
       ps.setString(1, groupDTO.getGroupName());
@@ -56,7 +56,9 @@ public class GroupRepository {
 
   public List<GroupDTO> findAllGroups(Connection connection) throws SQLException {
     String query =
-        "SELECT GROUP_ID, GROUP_INTERNAL_NAME, GROUP_CITY, GROUP_CATEGORY, GROUP_ADDED_AT, GROUP_ADDED_BY FROM groups";
+        """
+        SELECT GROUP_ID, GROUP_INTERNAL_NAME, GROUP_CITY, GROUP_CATEGORY, GROUP_ADDED_AT, GROUP_ADDED_BY FROM groups
+        """;
     List<GroupDTO> groupDTOs = new ArrayList<>();
     try (PreparedStatement preparedStatement = connection.prepareStatement(query);
         ResultSet rs = preparedStatement.executeQuery()) {
