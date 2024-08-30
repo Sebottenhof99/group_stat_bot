@@ -3,6 +3,7 @@ package com.am.telegram.groupstat.logic.report;
 import static java.util.stream.Collectors.groupingBy;
 
 import com.am.telegram.groupstat.logic.report.concurrency.ReportSubscriber;
+import com.am.telegram.groupstat.logic.report.excel.CurrentMonthSheet;
 import com.am.telegram.groupstat.logic.report.statistic.GroupStatistic;
 import com.am.telegram.groupstat.logic.report.statistic.StatisticService;
 import java.io.File;
@@ -17,8 +18,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
@@ -77,8 +76,8 @@ public class ReportService {
       }
 
       save(workbook);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (IOException e) {
+      throw new ReportGenerationException("Could not create and handle workbook", e);
     } finally {
       isReportBeingGenerated.set(false);
     }
@@ -93,7 +92,7 @@ public class ReportService {
     try (FileOutputStream fileOut = new FileOutputStream(currentReportName())) {
       workbook.write(fileOut);
     } catch (IOException e) {
-      e.printStackTrace();
+      throw new ReportGenerationException("Could not save workbook", e);
     }
   }
 
