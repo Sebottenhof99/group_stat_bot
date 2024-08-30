@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 public class ReportService {
 
   private static final Logger log = LoggerFactory.getLogger(ReportService.class);
-  private AtomicBoolean isReportBeingGenerated = new AtomicBoolean(false);
+  private final AtomicBoolean isReportBeingGenerated = new AtomicBoolean(false);
   private List<ReportSubscriber> reportSubscribers =
       Collections.synchronizedList(new ArrayList<>());
 
