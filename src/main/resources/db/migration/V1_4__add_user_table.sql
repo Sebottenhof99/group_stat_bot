@@ -1,6 +1,6 @@
 CREATE TABLE STAT_USERS
 (
-    STAT_USER_ID              integer auto_increment primary key,
+    STAT_USER_ID serial primary key,
     STAT_USER_NAME            varchar   not null unique,
     STAT_USER_ADDED_AT        timestamp not null,
     STAT_USER_ADDED_BY        varchar   not null,
@@ -16,7 +16,7 @@ VALUES ('f_zoidberg', '2024-08-03', 'f_zoidberg', true, true);
 
 CREATE TABLE USER_ASSISTANT
 (
-    USER_ASSISTANT_ID                integer auto_increment primary key,
+    USER_ASSISTANT_ID serial primary key,
     USER_ASSISTANT_USER_ID           int not null,
     USER_ASSISTANT_ACTIVE_OPERATION  varchar,
     USER_ASSISTANT_LAST_GIVEN_ANSWER varchar,

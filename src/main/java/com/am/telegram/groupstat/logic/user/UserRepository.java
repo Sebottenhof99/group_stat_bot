@@ -71,13 +71,17 @@ public class UserRepository {
   public void persist(Connection con, UserDTO userDTO) throws SQLException {
     String sql =
         """
-                    INSERT INTO STAT_USERS(STAT_USERS_CHAT_ID, STAT_USER_NAME, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN,
+                    INSERT INTO STAT_USERS(STAT_USER_NAME, STAT_USERS_CHAT_ID, STAT_USER_ADDED_AT, STAT_USER_ADDED_BY, STAT_USER_IS_ADMIN,
                     STAT_USER_HAS_READ_ACCESS, STAT_USER_IS_SUBSCRIBED) VALUES(?, ?, ?, ?, ?, ?, ?)
                 """;
 
     try (PreparedStatement ps = con.prepareStatement(sql)) {
       ps.setString(1, userDTO.getUserName());
-      ps.setLong(2, userDTO.getChatId());
+      if (userDTO.getChatId() == 0) {
+        ps.setNull(2, Types.BIGINT);
+      } else {
+        ps.setLong(2, userDTO.getChatId());
+      }
       ps.setTimestamp(3, Timestamp.valueOf(userDTO.getAddedAt()));
       ps.setString(4, userDTO.getAddedBy());
       ps.setBoolean(5, userDTO.isAdmin());
