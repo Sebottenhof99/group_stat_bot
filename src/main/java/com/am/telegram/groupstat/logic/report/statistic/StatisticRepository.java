@@ -18,10 +18,10 @@ public class StatisticRepository {
   private static final Logger log = LoggerFactory.getLogger(StatisticRepository.class);
   private static final String SELECT_STATISTICS_FOR_GIVEN_DATE =
       """
-             SELECT GROUP_INTERNAL_NAME, STATISTIC_ID, STATISTIC_MEASURED_AT, STATISTIC_MEMBER_COUNT
-             FROM GROUP_MONTH_STATISTIC JOIN GROUPS on GROUP_MONTH_STATISTIC.STATISTIC_GROUP_ID = GROUPS.GROUP_ID
-            where STATISTIC_MEASURED_AT = ?
-            """;
+      SELECT GROUP_INTERNAL_NAME, STATISTIC_ID, STATISTIC_MEASURED_AT, STATISTIC_MEMBER_COUNT
+      FROM GROUP_MONTH_STATISTIC JOIN GROUPS on GROUP_MONTH_STATISTIC.STATISTIC_GROUP_ID = GROUPS.GROUP_ID
+      WHERE STATISTIC_MEASURED_AT = ?
+      """;
   private final TelegramBot bot;
 
   public StatisticRepository(TelegramBot bot) {
