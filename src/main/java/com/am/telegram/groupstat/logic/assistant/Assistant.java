@@ -21,10 +21,7 @@ public class Assistant {
   public Keyboard availableOperations() {
 
     ReplyKeyboardMarkup replyKeyboardMarkup =
-        new ReplyKeyboardMarkup("")
-            //   .oneTimeKeyboard(true)   // optional
-            .resizeKeyboard(true) // optional
-            .selective(true);
+        new ReplyKeyboardMarkup("").resizeKeyboard(true).selective(true);
 
     if ((userDTO.isAdmin() || userDTO.isHasReadAccess()) && !isWaitingForAnswer()) {
       replyKeyboardMarkup.addRow(
