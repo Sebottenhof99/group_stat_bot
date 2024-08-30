@@ -30,14 +30,14 @@ public class StatisticService {
       return groupedStatistics(
           groupDTOs, previousMonthStatistics(connection), currentStatistics(connection, groupDTOs));
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new StatisticsException("Could not generate current report due to sql issue", e);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      throw new RuntimeException(e);
+      throw new StatisticsException("Could not generate report due to thread issue", e);
     }
   }
 
-  private static List<GroupStatistic> groupedStatistics(
+  private List<GroupStatistic> groupedStatistics(
       List<GroupDTO> groupDTOs,
       Map<String, GroupMonthStatisticDTO> previousMonthStatistics,
       Map<String, GroupMonthStatisticDTO> currentStatistics) {
