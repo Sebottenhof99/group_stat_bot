@@ -40,6 +40,7 @@ public class ReportSender {
           try {
             reportService.subscribe(new ReportSubscriber(subscriber.getChatId(), bot));
           } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             throw new RuntimeException(e);
           }
         });
