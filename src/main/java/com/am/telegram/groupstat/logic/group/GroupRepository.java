@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class GroupManagementRepository {
+public class GroupRepository {
 
   public List<GroupDTO> listAllGroups(Connection con) throws SQLException {
     List<GroupDTO> groups = new ArrayList<>();
@@ -32,14 +32,7 @@ public class GroupManagementRepository {
       ps.setInt(1, groupId);
       try (ResultSet rs = ps.executeQuery()) {
         if (rs.next()) {
-          GroupDTO groupDTO = new GroupDTO();
-          groupDTO.setGroupId(rs.getInt("GROUP_ID"));
-          groupDTO.setGroupName(rs.getString("GROUP_INTERNAL_NAME"));
-          groupDTO.setGroupCity(rs.getString("GROUP_CITY"));
-          groupDTO.setGroupCategory(rs.getString("GROUP_CATEGORY"));
-          groupDTO.setAddedAt(rs.getTimestamp("GROUP_ADDED_AT").toLocalDateTime());
-          groupDTO.setAddedBy(rs.getString("GROUP_ADDED_BY"));
-          return Optional.of(groupDTO);
+          return Optional.of(mapToDTO(rs));
         }
         return Optional.empty();
       }
@@ -75,5 +68,31 @@ public class GroupManagementRepository {
       ps.setString(5, groupDTO.getAddedBy());
       ps.executeUpdate();
     }
+  }
+
+  public List<GroupDTO> findAllGroups(Connection connection) throws SQLException {
+    String query =
+        "SELECT GROUP_ID, GROUP_INTERNAL_NAME, GROUP_CITY, GROUP_CATEGORY, GROUP_ADDED_AT, GROUP_ADDED_BY FROM groups";
+    List<GroupDTO> groupDTOs = new ArrayList<>();
+    try (PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet rs = preparedStatement.executeQuery()) {
+      while (rs.next()) {
+        GroupDTO groupDTO = mapToDTO(rs);
+        groupDTOs.add(groupDTO);
+      }
+    }
+
+    return groupDTOs;
+  }
+
+  private GroupDTO mapToDTO(ResultSet rs) throws SQLException {
+    GroupDTO groupDTO = new GroupDTO();
+    groupDTO.setGroupId(rs.getInt("GROUP_ID"));
+    groupDTO.setGroupName(rs.getString("GROUP_INTERNAL_NAME"));
+    groupDTO.setGroupCity(rs.getString("GROUP_CITY"));
+    groupDTO.setGroupCategory(rs.getString("GROUP_CATEGORY"));
+    groupDTO.setAddedAt(rs.getTimestamp("GROUP_ADDED_AT").toLocalDateTime());
+    groupDTO.setAddedBy(rs.getString("GROUP_ADDED_BY"));
+    return groupDTO;
   }
 }

@@ -9,20 +9,19 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.sql.DataSource;
 
-public class GroupManagementService {
+public class GroupService {
 
   private final DataSource ds;
-  private final GroupManagementRepository groupManagementRepository;
+  private final GroupRepository groupRepository;
 
-  public GroupManagementService(
-      DataSource ds, GroupManagementRepository groupManagementRepository) {
+  public GroupService(DataSource ds, GroupRepository groupRepository) {
     this.ds = ds;
-    this.groupManagementRepository = groupManagementRepository;
+    this.groupRepository = groupRepository;
   }
 
   public String groups() {
     try (Connection con = ds.getConnection()) {
-      List<GroupDTO> groupDTOS = groupManagementRepository.listAllGroups(con);
+      List<GroupDTO> groupDTOS = groupRepository.listAllGroups(con);
       StringBuilder groupsAsString = new StringBuilder();
       Map<String, List<GroupDTO>> groupsByCategory =
           groupDTOS.stream().collect(groupingBy(GroupDTO::getGroupCategory));
@@ -50,9 +49,9 @@ public class GroupManagementService {
 
     try (Connection con = ds.getConnection()) {
       if (groupDTO.getGroupId() > 0) {
-        groupManagementRepository.update(con, groupDTO);
+        groupRepository.update(con, groupDTO);
       } else {
-        groupManagementRepository.persist(con, groupDTO);
+        groupRepository.persist(con, groupDTO);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
