@@ -2,8 +2,8 @@ package com.am.telegram.groupstat;
 
 import com.am.telegram.groupstat.logic.assistant.AssistantRepository;
 import com.am.telegram.groupstat.logic.assistant.AssistantService;
-import com.am.telegram.groupstat.logic.group.GroupManagementRepository;
-import com.am.telegram.groupstat.logic.group.GroupManagementService;
+import com.am.telegram.groupstat.logic.group.GroupRepository;
+import com.am.telegram.groupstat.logic.group.GroupService;
 import com.am.telegram.groupstat.logic.report.ReportConfig;
 import com.am.telegram.groupstat.logic.report.ReportService;
 import com.am.telegram.groupstat.logic.scennarios.ScenarioFactory;
@@ -21,6 +21,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Import(ReportConfig.class)
 @EnableScheduling
 public class AppConfig {
+
+  @Bean
+  public GroupRepository groupRepository() {
+    return new GroupRepository();
+  }
 
   @Bean
   public UserRepository userRepository() {
@@ -44,14 +49,13 @@ public class AppConfig {
   }
 
   @Bean
-  public GroupManagementRepository groupManagementRepository() {
-    return new GroupManagementRepository();
+  public GroupRepository groupManagementRepository() {
+    return new GroupRepository();
   }
 
   @Bean
-  public GroupManagementService groupManagementService(
-      DataSource ds, GroupManagementRepository groupManagementRepository) {
-    return new GroupManagementService(ds, groupManagementRepository);
+  public GroupService groupManagementService(DataSource ds, GroupRepository groupRepository) {
+    return new GroupService(ds, groupRepository);
   }
 
   @Bean
@@ -60,9 +64,8 @@ public class AppConfig {
       AssistantService assistantService,
       UserService userService,
       ReportService reportService,
-      GroupManagementService groupManagementService) {
-    return new ScenarioFactory(
-        bot, assistantService, userService, reportService, groupManagementService);
+      GroupService groupService) {
+    return new ScenarioFactory(bot, assistantService, userService, reportService, groupService);
   }
 
   @Bean(destroyMethod = "shutdown")
@@ -74,5 +77,11 @@ public class AppConfig {
   public StatUpdateListener statUpdateListener(
       TelegramBot bot, AssistantService assistantService, ScenarioFactory scenarioFactory) {
     return new StatUpdateListener(bot, assistantService, scenarioFactory);
+  }
+
+  @Bean
+  public ReportSender reportSender(
+      ReportService reportService, UserService userService, TelegramBot bot) {
+    return new ReportSender(reportService, userService, bot);
   }
 }

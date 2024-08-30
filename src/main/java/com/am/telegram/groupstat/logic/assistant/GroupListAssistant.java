@@ -1,20 +1,20 @@
 package com.am.telegram.groupstat.logic.assistant;
 
-import com.am.telegram.groupstat.logic.group.GroupManagementService;
+import com.am.telegram.groupstat.logic.group.GroupService;
 
 public class GroupListAssistant {
 
   private final Assistant assistant;
-  private final GroupManagementService groupManagementService;
+  private final GroupService groupService;
 
-  public GroupListAssistant(Assistant assistant, GroupManagementService groupManagementService) {
+  public GroupListAssistant(Assistant assistant, GroupService groupService) {
     this.assistant = assistant;
-    this.groupManagementService = groupManagementService;
+    this.groupService = groupService;
   }
 
   public void listGroups() {
     if (assistant.isAdmin() || assistant.hasReadAccess()) {
-      assistant.provideMessageToUser("Groups: \n" + groupManagementService.groups());
+      assistant.provideMessageToUser("Groups: \n" + groupService.groups());
     }
   }
 }

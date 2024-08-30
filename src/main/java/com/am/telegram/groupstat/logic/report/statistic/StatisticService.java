@@ -1,7 +1,7 @@
 package com.am.telegram.groupstat.logic.report.statistic;
 
-import com.am.telegram.groupstat.logic.report.group.GroupDTO;
-import com.am.telegram.groupstat.logic.report.group.GroupRepository;
+import com.am.telegram.groupstat.logic.group.GroupDTO;
+import com.am.telegram.groupstat.logic.group.GroupRepository;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -46,8 +46,8 @@ public class StatisticService {
       groupStatistics.add(
           new BasicGroupStatistic(
               groupDTO,
-              previousMonthStatistics.get(groupDTO.getInternalName()),
-              currentStatistics.get(groupDTO.getInternalName())));
+              previousMonthStatistics.get(groupDTO.getGroupName()),
+              currentStatistics.get(groupDTO.getGroupName())));
     }
 
     return groupStatistics;

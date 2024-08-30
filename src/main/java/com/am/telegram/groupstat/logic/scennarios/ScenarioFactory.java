@@ -2,7 +2,7 @@ package com.am.telegram.groupstat.logic.scennarios;
 
 import com.am.telegram.groupstat.logic.assistant.Assistant;
 import com.am.telegram.groupstat.logic.assistant.AssistantService;
-import com.am.telegram.groupstat.logic.group.GroupManagementService;
+import com.am.telegram.groupstat.logic.group.GroupService;
 import com.am.telegram.groupstat.logic.operations.Operations;
 import com.am.telegram.groupstat.logic.report.ReportService;
 import com.am.telegram.groupstat.logic.scennarios.group.AddNewGroupScenario;
@@ -20,19 +20,19 @@ public class ScenarioFactory {
   private final AssistantService assistantService;
   private final ReportService reportService;
   private final UserService userService;
-  private final GroupManagementService groupManagementService;
+  private final GroupService groupService;
 
   public ScenarioFactory(
       TelegramBot bot,
       AssistantService assistantService,
       UserService userService,
       ReportService reportService,
-      GroupManagementService groupManagementService) {
+      GroupService groupService) {
     this.bot = bot;
     this.assistantService = assistantService;
     this.reportService = reportService;
     this.userService = userService;
-    this.groupManagementService = groupManagementService;
+    this.groupService = groupService;
   }
 
   public Scenario selectScenario(Assistant assistant, Operations operations) {
@@ -64,11 +64,11 @@ public class ScenarioFactory {
       }
 
       case LIST_GROUPS -> {
-        return new ListGroupsScenario(assistant, groupManagementService);
+        return new ListGroupsScenario(assistant, groupService);
       }
 
       case ADD_NEW_GROUP -> {
-        return new AddNewGroupScenario(assistant, assistantService, groupManagementService, bot);
+        return new AddNewGroupScenario(assistant, assistantService, groupService, bot);
       }
 
       case PAUSE_GROUP -> {}

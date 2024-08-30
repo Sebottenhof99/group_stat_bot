@@ -1,6 +1,6 @@
 package com.am.telegram.groupstat.logic.report.statistic;
 
-import com.am.telegram.groupstat.logic.report.group.GroupDTO;
+import com.am.telegram.groupstat.logic.group.GroupDTO;
 import org.apache.poi.ss.usermodel.Row;
 
 public class BasicGroupStatistic implements GroupStatistic {
@@ -20,7 +20,7 @@ public class BasicGroupStatistic implements GroupStatistic {
 
   @Override
   public void writeInRow(Row row) {
-    row.createCell(0).setCellValue(groupDTO.getCity());
+    row.createCell(0).setCellValue(groupDTO.getGroupCity());
     row.createCell(1).setCellValue(currentMonthStatisticDTO.getMemberCount());
     row.createCell(2)
         .setCellValue(
@@ -35,6 +35,6 @@ public class BasicGroupStatistic implements GroupStatistic {
   }
 
   public String category() {
-    return groupDTO.getCategory();
+    return groupDTO.getGroupCategory();
   }
 }
