@@ -69,6 +69,7 @@ public class StatisticRepository {
             groupMonthStatisticDTO.setGroupId(groupDTO.getGroupId());
             groupMonthStatisticDTO.setMeasuredAt(LocalDate.now());
             groupMonthStatisticDTO.setMemberCount(response.count());
+            log.info("{} has {} members", groupDTO.getGroupName(), response.count());
             currentStatistics.put(groupDTO.getGroupName(), groupMonthStatisticDTO);
           },
               TELEGRAM_REQUEST_PER_SEC_LIMIT,
