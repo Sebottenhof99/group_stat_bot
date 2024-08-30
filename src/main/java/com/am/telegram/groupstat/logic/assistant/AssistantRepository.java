@@ -7,14 +7,13 @@ import java.sql.SQLException;
 
 public class AssistantRepository {
 
-  private static final String sql =
-      """
-              SELECT USER_ASSISTANT_ACTIVE_OPERATION, USER_ASSISTANT_LAST_GIVEN_ANSWER
-              FROM USER_ASSISTANT
-              WHERE USER_ASSISTANT_USER_ID = ?
-              """;
-
   public AssistantDTO findByUserId(Connection con, int userId) throws SQLException {
+    String sql =
+        """
+                    SELECT USER_ASSISTANT_ACTIVE_OPERATION, USER_ASSISTANT_LAST_GIVEN_ANSWER
+                    FROM USER_ASSISTANT
+                    WHERE USER_ASSISTANT_USER_ID = ?
+                    """;
     try (PreparedStatement ps = con.prepareStatement(sql)) {
       ps.setInt(1, userId);
       try (ResultSet rs = ps.executeQuery()) {
