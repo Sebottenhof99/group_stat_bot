@@ -24,12 +24,8 @@ public class GenerateReportScenario implements Scenario {
 
   @Override
   public void execute(long chatId) {
-    try {
-      log.info("Trying to get report");
-      reportService.subscribe(new ReportSubscriber(chatId, bot));
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
+    log.info("Trying to get report");
+    reportService.subscribe(new ReportSubscriber(chatId, bot));
 
     assistant.provideMessageToUser(
         "Report generation is in progress. It can take several minutes."
