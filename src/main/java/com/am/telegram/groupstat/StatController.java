@@ -45,10 +45,12 @@ public class StatController implements UpdatesListener {
     log.info("Incoming update from chat {}", update.message().chat().id());
     Optional<Assistant> assistant =
         assistantService.assistantOf(update.message().chat().username());
+
     if (assistant.isEmpty()) {
       bot.execute(new SendMessage(update.message().chat().id(), "No permissions!"));
       return;
     }
+
     if (update.message() == null || update.message().text() == null) {
       bot.execute(
           new SendMessage(update.message().chat().id(), "Unsupported communication medium"));
@@ -64,6 +66,7 @@ public class StatController implements UpdatesListener {
       if (CANCEL.name().equals(update.message().text())) {
         assistant.get().memorizeLastActiveOperation(CANCEL);
       }
+
       try {
         assistant.get().memorizeLastGivenAnswer(update.message().text());
         Operations operations =
