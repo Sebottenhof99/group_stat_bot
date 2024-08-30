@@ -28,7 +28,7 @@ public class ReportService {
 
   private static final Logger log = LoggerFactory.getLogger(ReportService.class);
   private final AtomicBoolean isReportBeingGenerated = new AtomicBoolean(false);
-  private List<ReportSubscriber> reportSubscribers =
+  private final List<ReportSubscriber> reportSubscribers =
       Collections.synchronizedList(new ArrayList<>());
 
   private final StatisticService statisticService;
@@ -58,7 +58,8 @@ public class ReportService {
     for (ReportSubscriber subscriber : reportSubscribers) {
       subscriber.update(report);
     }
-    reportSubscribers = Collections.synchronizedList(new ArrayList<>());
+
+    reportSubscribers.clear();
   }
 
   private void generateReport() {
