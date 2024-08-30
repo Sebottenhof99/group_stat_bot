@@ -31,7 +31,7 @@ public class AssistantService {
       return Optional.of(new Assistant(userByName.get(), assistantDTO));
 
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new AssistantException("Could not get assistant for name", e);
     }
   }
 
@@ -45,7 +45,7 @@ public class AssistantService {
             con, assistant.getAssistantDTO(), assistant.getUserDTO().getUserId());
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new AssistantException("Could not save assistant", e);
     }
   }
 }
