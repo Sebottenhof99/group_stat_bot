@@ -25,7 +25,7 @@ public class ReportSender {
     this.bot = bot;
   }
 
-  @Scheduled(cron = "0 10 28-31 * *")
+  @Scheduled(cron = "* 0 10 28-31 * *")
   public void sendReport() {
     if (!isLastDayOfMonth()) {
       log.info("Today is not the last day of the month");
