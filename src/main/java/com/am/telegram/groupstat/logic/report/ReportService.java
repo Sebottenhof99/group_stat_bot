@@ -46,6 +46,7 @@ public class ReportService {
       log.info("Report is already generated. Sending it to subscribers");
       notifySubscribers();
     } else if (!isReportBeingGenerated.get()) {
+      log.info("Starting to generate report");
       Thread thread = new Thread(this::generateReport);
       thread.start();
     }
