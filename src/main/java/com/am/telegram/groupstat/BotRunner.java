@@ -6,9 +6,9 @@ import org.springframework.boot.ApplicationRunner;
 
 public class BotRunner implements ApplicationRunner {
   private final TelegramBot bot;
-  private final StatUpdateListener updateListener;
+  private final StatController updateListener;
 
-  public BotRunner(TelegramBot bot, StatUpdateListener updateListener) {
+  public BotRunner(TelegramBot bot, StatController updateListener) {
     this.bot = bot;
     this.updateListener = updateListener;
   }

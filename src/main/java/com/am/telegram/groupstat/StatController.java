@@ -17,15 +17,15 @@ import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class StatUpdateListener implements UpdatesListener {
+public class StatController implements UpdatesListener {
 
-  private static final Logger log = LoggerFactory.getLogger(StatUpdateListener.class);
+  private static final Logger log = LoggerFactory.getLogger(StatController.class);
   private final TelegramBot bot;
   private final AssistantService assistantService;
   private final ScenarioFactory scenarioFactory;
   private final ExecutorService executor;
 
-  public StatUpdateListener(
+  public StatController(
       TelegramBot bot, AssistantService assistantService, ScenarioFactory scenarioFactory) {
     this.bot = bot;
     this.assistantService = assistantService;

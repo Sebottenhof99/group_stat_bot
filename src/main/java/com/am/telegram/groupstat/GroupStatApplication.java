@@ -14,7 +14,7 @@ public class GroupStatApplication {
   }
 
   @Bean
-  public ApplicationRunner commandLineRunner(TelegramBot bot, StatUpdateListener statUpdateListener) {
-    return new BotRunner(bot, statUpdateListener);
+  public ApplicationRunner commandLineRunner(TelegramBot bot, StatController statController) {
+    return new BotRunner(bot, statController);
   }
 }

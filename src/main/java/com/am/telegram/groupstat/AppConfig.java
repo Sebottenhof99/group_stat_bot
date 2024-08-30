@@ -74,9 +74,9 @@ public class AppConfig {
   }
 
   @Bean
-  public StatUpdateListener statUpdateListener(
+  public StatController statUpdateListener(
       TelegramBot bot, AssistantService assistantService, ScenarioFactory scenarioFactory) {
-    return new StatUpdateListener(bot, assistantService, scenarioFactory);
+    return new StatController(bot, assistantService, scenarioFactory);
   }
 
   @Bean
