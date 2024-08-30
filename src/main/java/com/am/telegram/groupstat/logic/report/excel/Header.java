@@ -1,19 +1,19 @@
 package com.am.telegram.groupstat.logic.report.excel;
 
-import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.ss.usermodel.Row;
 
 public class Header {
 
-  private final XSSFRow xssfRow;
+  private final Row row;
 
-  public Header(XSSFRow xssfRow) {
-    this.xssfRow = xssfRow;
+  public Header(Row row) {
+    this.row = row;
   }
 
   public void add() {
-    xssfRow.createCell(0).setCellValue("Город");
-    xssfRow.createCell(1).setCellValue("Текущий месяц");
-    xssfRow.createCell(2).setCellValue("Предыдущий месяц");
-    xssfRow.createCell(3).setCellValue("Дельта");
+    row.createCell(0).setCellValue("Город");
+    row.createCell(1).setCellValue("Текущий месяц");
+    row.createCell(2).setCellValue("Предыдущий месяц");
+    row.createCell(3).setCellValue("Дельта");
   }
 }
