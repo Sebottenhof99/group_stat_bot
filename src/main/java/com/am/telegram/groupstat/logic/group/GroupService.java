@@ -38,10 +38,9 @@ public class GroupService {
                     .map(groupDTO -> groupDTO.getGroupId() + ". " + groupDTO.getGroupCity())
                     .collect(Collectors.joining("\n")));
       }
-
       return groupsAsString.toString();
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new GroupException("Could not get all groups", e);
     }
   }
 
@@ -53,7 +52,7 @@ public class GroupService {
         groupRepository.persist(con, groupDTO);
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new GroupException("Could not save group", e);
     }
   }
 }
