@@ -41,7 +41,6 @@ public class ReportService {
     if (reportSubscribers.contains(reportSubscriber)) {
       return;
     }
-    log.info("Registration subscriber");
     reportSubscribers.add(reportSubscriber);
     if (isReportAlreadyGenerated()) {
       log.info("Report is already generated. Sending it to subscribers");
