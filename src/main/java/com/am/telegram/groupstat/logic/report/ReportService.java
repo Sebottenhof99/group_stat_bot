@@ -64,26 +64,16 @@ public class ReportService {
     log.info("Generating report");
 
     try (Workbook workbook = new XSSFWorkbook()) {
+      var sheet = new CurrentMonthSheet(workbook);
+      sheet.addHeader();
+
       List<GroupStatistic> groupStatistics = statisticService.generateCurrentReport();
       Map<String, List<GroupStatistic>> groupStatisticsPerCategory =
           groupStatistics.stream().collect(groupingBy(GroupStatistic::category));
-      Sheet sheet =
-          workbook.createSheet(LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM")));
-      Row header = sheet.createRow(0);
-      header.createCell(0).setCellValue("Город");
-      header.createCell(1).setCellValue("Настоящее значение");
-      header.createCell(2).setCellValue("Предыдущее значение");
-      header.createCell(3).setCellValue("Разница");
 
-      int rowNumber = 1;
       for (Map.Entry<String, List<GroupStatistic>> category :
           groupStatisticsPerCategory.entrySet()) {
-        Row categoryRow = sheet.createRow(rowNumber++);
-        categoryRow.createCell(0).setCellValue(category.getKey());
-        for (GroupStatistic groupStatistic : category.getValue()) {
-          Row groupRow = sheet.createRow(rowNumber++);
-          groupStatistic.writeInRow(groupRow);
-        }
+        sheet.addCategory(category.getKey(), category.getValue());
       }
 
       save(workbook);
