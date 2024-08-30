@@ -49,32 +49,6 @@ public class UserRepository {
     }
   }
 
-  private List<UserDTO> requestUsers(Connection connection, String sql) throws SQLException {
-    try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
-         ResultSet rs = preparedStatement.executeQuery()) {
-      List<UserDTO> users = new ArrayList<>();
-      while (rs.next()) {
-        UserDTO userDTO = mapToDTO(rs);
-        users.add(userDTO);
-      }
-
-      return users;
-    }
-  }
-
-  private UserDTO mapToDTO(ResultSet rs) throws SQLException {
-    UserDTO userDTO = new UserDTO();
-    userDTO.setUserId(rs.getInt("STAT_USER_ID"));
-    userDTO.setChatId(rs.getLong("STAT_USERS_CHAT_ID"));
-    userDTO.setUserName(rs.getString("STAT_USER_NAME"));
-    userDTO.setAddedAt(rs.getTimestamp("STAT_USER_ADDED_AT").toLocalDateTime());
-    userDTO.setAddedBy(rs.getString("STAT_USER_ADDED_BY"));
-    userDTO.setAdmin(rs.getBoolean("STAT_USER_IS_ADMIN"));
-    userDTO.setHasReadAccess(rs.getBoolean("STAT_USER_HAS_READ_ACCESS"));
-    userDTO.setSubscribed(rs.getBoolean("STAT_USER_IS_SUBSCRIBED"));
-    return userDTO;
-  }
-
   public void persist(Connection con, UserDTO userDTO) throws SQLException {
     String sql = """
         INSERT INTO STAT_USERS(STAT_USER_NAME, STAT_USERS_CHAT_ID, STAT_USER_ADDED_AT,
@@ -134,10 +108,10 @@ public class UserRepository {
         FROM STAT_USERS
         WHERE STAT_USER_IS_SUBSCRIBED = true
         """;
-    List<UserDTO> subscribers = new ArrayList<>();
     try (PreparedStatement preparedStatement = con.prepareStatement(sql);
          ResultSet rs = preparedStatement.executeQuery()) {
 
+      List<UserDTO> subscribers = new ArrayList<>();
       while (rs.next()) {
         subscribers.add(mapToDTO(rs));
       }
@@ -145,5 +119,31 @@ public class UserRepository {
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  private List<UserDTO> requestUsers(Connection connection, String sql) throws SQLException {
+    try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+         ResultSet rs = preparedStatement.executeQuery()) {
+      List<UserDTO> users = new ArrayList<>();
+      while (rs.next()) {
+        UserDTO userDTO = mapToDTO(rs);
+        users.add(userDTO);
+      }
+
+      return users;
+    }
+  }
+
+  private UserDTO mapToDTO(ResultSet rs) throws SQLException {
+    UserDTO userDTO = new UserDTO();
+    userDTO.setUserId(rs.getInt("STAT_USER_ID"));
+    userDTO.setChatId(rs.getLong("STAT_USERS_CHAT_ID"));
+    userDTO.setUserName(rs.getString("STAT_USER_NAME"));
+    userDTO.setAddedAt(rs.getTimestamp("STAT_USER_ADDED_AT").toLocalDateTime());
+    userDTO.setAddedBy(rs.getString("STAT_USER_ADDED_BY"));
+    userDTO.setAdmin(rs.getBoolean("STAT_USER_IS_ADMIN"));
+    userDTO.setHasReadAccess(rs.getBoolean("STAT_USER_HAS_READ_ACCESS"));
+    userDTO.setSubscribed(rs.getBoolean("STAT_USER_IS_SUBSCRIBED"));
+    return userDTO;
   }
 }
