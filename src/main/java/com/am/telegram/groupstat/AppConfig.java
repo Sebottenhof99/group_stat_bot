@@ -23,11 +23,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class AppConfig {
 
   @Bean
-  public GroupRepository groupRepository() {
-    return new GroupRepository();
-  }
-
-  @Bean
   public UserRepository userRepository() {
     return new UserRepository();
   }
@@ -49,12 +44,12 @@ public class AppConfig {
   }
 
   @Bean
-  public GroupRepository groupManagementRepository() {
+  public GroupRepository groupRepository() {
     return new GroupRepository();
   }
 
   @Bean
-  public GroupService groupManagementService(DataSource ds, GroupRepository groupRepository) {
+  public GroupService groupService(DataSource ds, GroupRepository groupRepository) {
     return new GroupService(ds, groupRepository);
   }
 
