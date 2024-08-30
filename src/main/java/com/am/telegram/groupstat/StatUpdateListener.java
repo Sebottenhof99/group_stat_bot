@@ -12,6 +12,8 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,20 +23,20 @@ public class StatUpdateListener implements UpdatesListener {
   private final TelegramBot bot;
   private final AssistantService assistantService;
   private final ScenarioFactory scenarioFactory;
+  private final ExecutorService executor;
 
   public StatUpdateListener(
       TelegramBot bot, AssistantService assistantService, ScenarioFactory scenarioFactory) {
     this.bot = bot;
     this.assistantService = assistantService;
     this.scenarioFactory = scenarioFactory;
+    this.executor = Executors.newFixedThreadPool(6);
   }
 
   @Override
   public int process(List<Update> updates) {
-    //TODO prepare thread pool
     for (Update update : updates) {
-      Thread thread = new Thread(() -> processUpdate(update));
-      thread.start();
+      executor.submit(() -> processUpdate(update));
     }
     return CONFIRMED_UPDATES_ALL;
   }
