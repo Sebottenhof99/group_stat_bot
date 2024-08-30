@@ -56,24 +56,27 @@ public class StatisticRepository {
     return groupMonthStatisticDTOMap;
   }
 
-  public Map<String, GroupMonthStatisticDTO> measureCurrentCountOfUsers(List<GroupDTO> groupDTOs) {
+  public Map<String, GroupMonthStatisticDTO> measureCurrentCountOfUsers(List<GroupDTO> groupDTOs)
+      throws ExecutionException, InterruptedException {
     Map<String, GroupMonthStatisticDTO> currentStatistics = new ConcurrentHashMap<>();
     log.info("Querying current user numbers from groups");
     for (GroupDTO groupDTO : groupDTOs) {
-      executor.schedule(
-          () -> {
-            log.info("Sending query for group {}", groupDTO.getGroupName());
-            GetChatMemberCountResponse response =
-                bot.execute(new GetChatMemberCount(groupDTO.getGroupName()));
-            GroupMonthStatisticDTO groupMonthStatisticDTO = new GroupMonthStatisticDTO();
-            groupMonthStatisticDTO.setGroupId(groupDTO.getGroupId());
-            groupMonthStatisticDTO.setMeasuredAt(LocalDate.now());
-            groupMonthStatisticDTO.setMemberCount(response.count());
-            log.info("{} has {} members", groupDTO.getGroupName(), response.count());
-            currentStatistics.put(groupDTO.getGroupName(), groupMonthStatisticDTO);
-          },
+      executor
+          .schedule(
+              () -> {
+                log.info("Sending query for group {}", groupDTO.getGroupName());
+                GetChatMemberCountResponse response =
+                    bot.execute(new GetChatMemberCount(groupDTO.getGroupName()));
+                GroupMonthStatisticDTO groupMonthStatisticDTO = new GroupMonthStatisticDTO();
+                groupMonthStatisticDTO.setGroupId(groupDTO.getGroupId());
+                groupMonthStatisticDTO.setMeasuredAt(LocalDate.now());
+                groupMonthStatisticDTO.setMemberCount(response.count());
+                log.info("{} has {} members", groupDTO.getGroupName(), response.count());
+                currentStatistics.put(groupDTO.getGroupName(), groupMonthStatisticDTO);
+              },
               TELEGRAM_REQUEST_PER_SEC_LIMIT,
-          TimeUnit.SECONDS);
+              TimeUnit.SECONDS)
+          .get();
     }
     return currentStatistics;
   }
