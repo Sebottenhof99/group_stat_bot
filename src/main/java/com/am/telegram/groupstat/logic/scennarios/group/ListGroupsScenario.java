@@ -1,7 +1,7 @@
 package com.am.telegram.groupstat.logic.scennarios.group;
 
 import com.am.telegram.groupstat.logic.assistant.Assistant;
-import com.am.telegram.groupstat.logic.assistant.GroupListAssistant;
+import com.am.telegram.groupstat.logic.assistant.specialization.GroupListAssistant;
 import com.am.telegram.groupstat.logic.group.GroupService;
 import com.am.telegram.groupstat.logic.scennarios.Scenario;
 

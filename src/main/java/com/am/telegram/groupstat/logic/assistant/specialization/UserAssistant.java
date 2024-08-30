@@ -1,6 +1,7 @@
-package com.am.telegram.groupstat.logic.assistant;
+package com.am.telegram.groupstat.logic.assistant.specialization;
 
 import com.am.telegram.groupstat.logic.Operations;
+import com.am.telegram.groupstat.logic.assistant.Assistant;
 import com.am.telegram.groupstat.logic.user.UserDTO;
 import com.am.telegram.groupstat.logic.user.UserService;
 import java.util.Optional;

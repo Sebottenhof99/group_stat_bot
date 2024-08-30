@@ -1,5 +1,6 @@
-package com.am.telegram.groupstat.logic.assistant;
+package com.am.telegram.groupstat.logic.assistant.specialization;
 
+import com.am.telegram.groupstat.logic.assistant.Assistant;
 import com.am.telegram.groupstat.logic.group.GroupService;
 
 public class GroupListAssistant {

@@ -1,7 +1,7 @@
 package com.am.telegram.groupstat.logic.scennarios.subscribtion;
 
 import com.am.telegram.groupstat.logic.assistant.Assistant;
-import com.am.telegram.groupstat.logic.assistant.SubscriptionAssistant;
+import com.am.telegram.groupstat.logic.assistant.specialization.SubscriptionAssistant;
 import com.am.telegram.groupstat.logic.scennarios.Scenario;
 import com.am.telegram.groupstat.logic.user.UserService;
 
