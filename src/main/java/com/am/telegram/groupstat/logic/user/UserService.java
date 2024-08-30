@@ -22,7 +22,7 @@ public class UserService {
       List<UserDTO> regularUsers = userRepository.findRegularUsers(connection);
       return regularUsers.stream().map(UserDTO::getUserName).collect(Collectors.joining("\n"));
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new UserException("Could not get regular users", e);
     }
   }
 
@@ -31,7 +31,7 @@ public class UserService {
       List<UserDTO> admins = userRepository.findAdmins(connection);
       return admins.stream().map(UserDTO::getUserName).collect(Collectors.joining("\n"));
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new UserException("Could not get admin names", e);
     }
   }
 
@@ -39,7 +39,7 @@ public class UserService {
     try (Connection con = ds.getConnection()) {
       return userRepository.findUserByName(con, userName);
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new UserException("Could not get user by his name", e);
     }
   }
 
@@ -51,7 +51,7 @@ public class UserService {
         userRepository.persist(con, userDTO);
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new UserException("Could not save user", e);
     }
   }
 
@@ -59,7 +59,7 @@ public class UserService {
     try (Connection con = ds.getConnection()) {
       userRepository.removeByUserId(con, userDTO.getUserId());
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new UserException("Could not remove user", e);
     }
   }
 
@@ -67,7 +67,7 @@ public class UserService {
     try (Connection con = ds.getConnection()) {
       return userRepository.findSubscribers(con);
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new UserException("Could not get subscribers", e);
     }
   }
 }
