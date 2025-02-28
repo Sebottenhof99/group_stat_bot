@@ -65,14 +65,14 @@ public class StatController implements UpdatesListener {
               .replyMarkup(assistant.get().availableOperations()));
     } else {
 
-      if (CANCEL.name().equals(update.message().text())) {
+      if (CANCEL.name().equalsIgnoreCase(update.message().text())) {
         assistant.get().memorizeLastActiveOperation(CANCEL);
       }
 
       try {
         assistant.get().memorizeLastGivenAnswer(update.message().text());
         Operations operations =
-            assistant.get().lastActiveOperation() == Operations.EMPTY
+            assistant.get().lastActiveOperation() == CANCEL
                 ? Operations.valueOf(update.message().text())
                 : assistant.get().lastActiveOperation();
         scenarioFactory
